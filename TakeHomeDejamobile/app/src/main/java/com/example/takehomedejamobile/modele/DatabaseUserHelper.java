@@ -1,12 +1,15 @@
-package com.example.takehomedejamobile;
+package com.example.takehomedejamobile.modele;
 
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.util.Log;
 
 import androidx.annotation.Nullable;
+
+import java.util.ArrayList;
 
 public class DatabaseUserHelper extends SQLiteOpenHelper {
 
@@ -30,11 +33,12 @@ public class DatabaseUserHelper extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-        String query = "CREATE TABLE "+ TABLE_USER +" (ID INTEGER PRIMARY KEY AUTOINCREMENT,email TEXT,pass TEXT,name TEXT)";
-        db.execSQL(query);
+        String create_users = "CREATE TABLE "+ TABLE_USER +" (ID INTEGER PRIMARY KEY AUTOINCREMENT,email TEXT,pass TEXT,name TEXT)";
+        db.execSQL(create_users);
 
-        query = "CREATE TABLE "+ TABLE_USER +" (ID INTEGER PRIMARY KEY AUTOINCREMENT,userID INTEGER,name TEXT,number TEXT,date_val DATE)";
-        db.execSQL(query);
+        String create_cards = "CREATE TABLE "+ TABLE_CARDS +" (ID INTEGER PRIMARY KEY AUTOINCREMENT,userID INTEGER,name TEXT,number TEXT,date_val DATE)";
+        db.execSQL(create_cards);
+
     }
 
     @Override
@@ -52,6 +56,7 @@ public class DatabaseUserHelper extends SQLiteOpenHelper {
         contentValues.put(user_col3,pass);
         contentValues.put(user_col4,name);
         long result = db.insert(TABLE_USER, null,contentValues);
+        Log.d("DATABASE INSERT", "inserting in users : "+email+" | " + pass + " | "+ name);
 
         if (result == -1){
             return false;
@@ -68,6 +73,8 @@ public class DatabaseUserHelper extends SQLiteOpenHelper {
         contentValues.put("date_val", date);
         long result = db.insert(TABLE_CARDS, null,contentValues);
 
+        Log.d("DATABASE INSERT", "inserting in cards : "+userid+" | " + name + " | "+ number+ " | "+ date);
+
         if (result == -1){
             return false;
         }
@@ -76,8 +83,27 @@ public class DatabaseUserHelper extends SQLiteOpenHelper {
 
     public Cursor getUser(String email){
         SQLiteDatabase db = this.getReadableDatabase();
-        String query = "SELECT * FROM user WHERE email ='" +email+"'";
+        String query = "SELECT * FROM users WHERE email ='" +email+"'";
         Cursor data = db.rawQuery(query,null);
         return data;
+    }
+
+    public ArrayList<Card> getUserCard(Integer user_id){
+        SQLiteDatabase db = this.getReadableDatabase();
+        String query = "SELECT * FROM "+ TABLE_CARDS + " WHERE userID=" + user_id;
+        Cursor data = db.rawQuery(query,null);
+
+        ArrayList<Card> lCards = new ArrayList<Card>();
+
+        while(data.moveToNext()){
+            Integer id = data.getInt(0);
+            String name = data.getString(2);
+            String number = data.getString(3);
+            String expDate = data.getString(4);
+            Card card = new Card(id, name, number, expDate);
+            lCards.add(card);
+        }
+
+        return lCards;
     }
 }

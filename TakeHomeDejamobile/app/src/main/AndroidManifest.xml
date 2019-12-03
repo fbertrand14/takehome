@@ -9,12 +9,12 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".CardEditActivity"></activity>
-        <activity android:name=".PayActivity" />
-        <activity android:name=".CardsListActivity" />
-        <activity android:name=".MainMenuActivity" />
-        <activity android:name=".CreateUserActivity" />
-        <activity android:name=".LoginActivity">
+        <activity android:name=".controler.CardEditActivity"></activity>
+        <activity android:name=".controler.PayActivity" />
+        <activity android:name=".controler.CardsListActivity" />
+        <activity android:name=".controler.MainMenuActivity" />
+        <activity android:name=".controler.CreateUserActivity" />
+        <activity android:name=".controler.LoginActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

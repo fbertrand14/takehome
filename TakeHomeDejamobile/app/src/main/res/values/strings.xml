@@ -14,4 +14,6 @@
     <string name="cardnumber">Card Number</string>
     <string name="expirationdate">expiration date</string>
     <string name="save">Save</string>
+    <string name="SelectCard">Select a card :</string>
+    <string name="Amount">Amount : </string>
 </resources>

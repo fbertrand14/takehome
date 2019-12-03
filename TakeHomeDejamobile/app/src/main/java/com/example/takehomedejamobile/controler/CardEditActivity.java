@@ -1,4 +1,4 @@
-package com.example.takehomedejamobile;
+package com.example.takehomedejamobile.controler;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -6,6 +6,10 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
+
+import com.example.takehomedejamobile.R;
+import com.example.takehomedejamobile.modele.DatabaseUserHelper;
 
 public class CardEditActivity extends AppCompatActivity {
 
@@ -25,6 +29,8 @@ public class CardEditActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_card_edit);
+
+        user_id = getIntent().getIntExtra("USER_ID",-1);
 
         databaseUser = new DatabaseUserHelper(this);
 
@@ -55,6 +61,8 @@ public class CardEditActivity extends AppCompatActivity {
     }
 
     private void savecard(){
+        boolean result;
+
         String name = String.valueOf(cardNameTextField.getText());
         String number = String.valueOf(cardNumberTextField.getText());
         String expDate = String.valueOf(expDateTextField.getText());
@@ -63,7 +71,13 @@ public class CardEditActivity extends AppCompatActivity {
             //TODO Create a modification of line
         }
         else{
-            databaseUser.addCard(user_id, name, number, expDate);
+            result = databaseUser.addCard(user_id, name, number, expDate);
+            if (result){
+                finish();
+            }
+            else{
+                Toast.makeText(this,"Nope",Toast.LENGTH_SHORT).show();
+            }
         }
     }
 }

@@ -1,21 +1,25 @@
-package com.example.takehomedejamobile;
+package com.example.takehomedejamobile.controler;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
+
+import com.example.takehomedejamobile.R;
+import com.example.takehomedejamobile.modele.DatabaseUserHelper;
 
 import java.util.ArrayList;
 
 public class LoginActivity extends AppCompatActivity {
 
     DatabaseUserHelper databaseUser;
+
+    Integer user_id = -1;
 
     private EditText loginTextField;
     private EditText passwordTextField;
@@ -64,6 +68,7 @@ public class LoginActivity extends AppCompatActivity {
         ArrayList<String> passlist = new ArrayList<String>();
         while(data.moveToNext()){
             passlist.add(data.getString(2));
+            user_id = data.getInt(0);
         }
         // No user found for this email
         if (passlist.size()==0){
@@ -79,7 +84,7 @@ public class LoginActivity extends AppCompatActivity {
         if (pass.equals(passlist.get(0))){
             //open the main menu
             Toast.makeText(this,"Connecting",Toast.LENGTH_SHORT).show();
-            openMainMenu();
+            openMainMenu(user_id);
         }
         else{
             Toast.makeText(this,"Incorrect password",Toast.LENGTH_SHORT).show();
@@ -88,8 +93,9 @@ public class LoginActivity extends AppCompatActivity {
 
     }
 
-    private void openMainMenu(){
+    private void openMainMenu(Integer user_id){
         Intent intent = new Intent(this,MainMenuActivity.class);
+        intent.putExtra("USER_ID", user_id);
         startActivity(intent);
     }
 }
