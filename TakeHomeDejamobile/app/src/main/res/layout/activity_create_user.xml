@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".CreateUserActivity">
+
+    <EditText
+        android:id="@+id/emailfield_createUserActivity"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="50dp"
+        android:ems="10"
+        android:hint="@string/email"
+        android:inputType="textEmailAddress"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:importantForAutofill="no" />
+
+    <EditText
+        android:id="@+id/passwordfield_createUserActivity"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:ems="10"
+        android:hint="@string/passworld"
+        android:inputType="textPassword"
+        app:layout_constraintEnd_toEndOf="@+id/emailfield_createUserActivity"
+        app:layout_constraintStart_toStartOf="@+id/emailfield_createUserActivity"
+        app:layout_constraintTop_toBottomOf="@+id/emailfield_createUserActivity"
+        android:importantForAutofill="no" />
+
+    <EditText
+        android:id="@+id/namefield_createUserActivity"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:ems="10"
+        android:hint="@string/name"
+        android:inputType="textPersonName"
+        app:layout_constraintEnd_toEndOf="@+id/passwordfield_createUserActivity"
+        app:layout_constraintStart_toStartOf="@+id/passwordfield_createUserActivity"
+        app:layout_constraintTop_toBottomOf="@+id/passwordfield_createUserActivity"
+        android:importantForAutofill="no" />
+
+    <Button
+        android:id="@+id/createButton_createUserActivity"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/createUser"
+        app:layout_constraintEnd_toEndOf="@+id/namefield_createUserActivity"
+        app:layout_constraintHorizontal_bias="0.494"
+        app:layout_constraintStart_toStartOf="@+id/namefield_createUserActivity"
+        app:layout_constraintTop_toBottomOf="@+id/namefield_createUserActivity" />
+</androidx.constraintlayout.widget.ConstraintLayout>

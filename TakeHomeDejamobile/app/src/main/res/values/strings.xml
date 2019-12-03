@@ -1,0 +1,17 @@
+<resources>
+    <string name="app_name">TakeHomeDejamobile</string>
+    <string name="login">Login</string>
+    <string name="passworld">Password</string>
+    <string name="connect">Connect</string>
+    <string name="newaccount">New account</string>
+    <string name="dejamobilelogo">Dejamobile logo</string>
+    <string name="email">Email</string>
+    <string name="name">Name</string>
+    <string name="createUser">Create User</string>
+    <string name="pay">Pay</string>
+    <string name="Cards">Cards</string>
+    <string name="addcard">Add card</string>
+    <string name="cardnumber">Card Number</string>
+    <string name="expirationdate">expiration date</string>
+    <string name="save">Save</string>
+</resources>

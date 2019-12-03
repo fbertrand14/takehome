@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".LoginActivity">
+
+    <EditText
+        android:id="@+id/loginfield_LoginActivity"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:hint="@string/login"
+        android:importantForAutofill="no"
+        android:inputType="textEmailAddress"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.30" />
+
+    <EditText
+        android:id="@+id/passwordfield_LoginActivity"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:ems="10"
+        android:hint="@string/passworld"
+        android:importantForAutofill="no"
+        android:inputType="textPassword"
+        app:layout_constraintEnd_toEndOf="@+id/loginfield_LoginActivity"
+        app:layout_constraintTop_toBottomOf="@+id/loginfield_LoginActivity" />
+
+    <Button
+        android:id="@+id/connectbutton_LoginActivity"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:text="@string/connect"
+        app:layout_constraintEnd_toEndOf="@+id/passwordfield_LoginActivity"
+        app:layout_constraintStart_toStartOf="@+id/passwordfield_LoginActivity"
+        app:layout_constraintTop_toBottomOf="@+id/passwordfield_LoginActivity" />
+
+    <Button
+        android:id="@+id/newaccountbutton_LoginActivity"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:text="@string/newaccount"
+        app:layout_constraintEnd_toEndOf="@+id/connectbutton_LoginActivity"
+        app:layout_constraintStart_toStartOf="@+id/connectbutton_LoginActivity"
+        app:layout_constraintTop_toBottomOf="@+id/connectbutton_LoginActivity" />
+
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="10dp"
+        android:contentDescription="@string/dejamobilelogo"
+        android:src="@drawable/logo"
+        app:layout_constraintBottom_toTopOf="@+id/loginfield_LoginActivity"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent" />
+</androidx.constraintlayout.widget.ConstraintLayout>
