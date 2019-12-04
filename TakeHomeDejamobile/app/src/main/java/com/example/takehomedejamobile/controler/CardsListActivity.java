@@ -11,7 +11,7 @@ import android.widget.Button;
 
 import com.example.takehomedejamobile.R;
 import com.example.takehomedejamobile.modele.Card;
-import com.example.takehomedejamobile.modele.DatabaseUserHelper;
+import com.example.takehomedejamobile.modele.DatabaseTakehomeHelper;
 
 import java.util.ArrayList;
 
@@ -22,7 +22,7 @@ public class CardsListActivity extends AppCompatActivity {
     private Button addcardbutton;
     private RecyclerView cardsRecyclerView;
 
-    DatabaseUserHelper databaseUser;
+    DatabaseTakehomeHelper database;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,7 +31,7 @@ public class CardsListActivity extends AppCompatActivity {
 
         user_id = getIntent().getIntExtra("USER_ID",-1);
 
-        databaseUser = new DatabaseUserHelper(this);
+        database = new DatabaseTakehomeHelper(this);
 
         addcardbutton = (Button) findViewById(R.id.addcard_CardsListActivity);
         cardsRecyclerView = (RecyclerView) findViewById(R.id.listcardrecyclerview_CardsListActivity);
@@ -69,7 +69,7 @@ public class CardsListActivity extends AppCompatActivity {
 
     private void initRecyclerView(){
 
-        ArrayList<Card> listCards = databaseUser.getUserCard(user_id);
+        ArrayList<Card> listCards = database.getUserCard(user_id);
 
         CardListRecyclerViewAdapter adapter = new CardListRecyclerViewAdapter(listCards,this);
 

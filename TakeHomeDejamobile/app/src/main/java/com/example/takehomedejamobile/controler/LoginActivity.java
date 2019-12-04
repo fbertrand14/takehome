@@ -11,13 +11,13 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.example.takehomedejamobile.R;
-import com.example.takehomedejamobile.modele.DatabaseUserHelper;
+import com.example.takehomedejamobile.modele.DatabaseTakehomeHelper;
 
 import java.util.ArrayList;
 
 public class LoginActivity extends AppCompatActivity {
 
-    DatabaseUserHelper databaseUser;
+    DatabaseTakehomeHelper database;
 
     Integer user_id = -1;
 
@@ -31,7 +31,7 @@ public class LoginActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
-        databaseUser = new DatabaseUserHelper(this);
+        database = new DatabaseTakehomeHelper(this);
 
         loginTextField = (EditText) findViewById(R.id.loginfield_LoginActivity);
         passwordTextField = (EditText) findViewById(R.id.passwordfield_LoginActivity);
@@ -64,7 +64,7 @@ public class LoginActivity extends AppCompatActivity {
         String pass = String.valueOf(passwordTextField.getText());
 
         // Retrive all password for a known email and put it in passlist
-        Cursor data = databaseUser.getUser(email);
+        Cursor data = database.getUser(email);
         ArrayList<String> passlist = new ArrayList<String>();
         while(data.moveToNext()){
             passlist.add(data.getString(2));

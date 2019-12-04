@@ -11,13 +11,13 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.example.takehomedejamobile.R;
-import com.example.takehomedejamobile.modele.DatabaseUserHelper;
+import com.example.takehomedejamobile.modele.DatabaseTakehomeHelper;
 
 import java.util.ArrayList;
 
 public class CreateUserActivity extends AppCompatActivity {
 
-    DatabaseUserHelper databaseUser;
+    DatabaseTakehomeHelper database;
 
     private Button newaccountButton;
     private EditText emailTextField;
@@ -30,7 +30,7 @@ public class CreateUserActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_user);
 
-        databaseUser = new DatabaseUserHelper(this);
+        database = new DatabaseTakehomeHelper(this);
 
         emailTextField = (EditText) findViewById(R.id.emailfield_createUserActivity);
         passwordTextField = (EditText) findViewById(R.id.passwordfield_createUserActivity);
@@ -58,7 +58,7 @@ public class CreateUserActivity extends AppCompatActivity {
             return;
         }
         //  stop insert on already existing email
-        Cursor data = databaseUser.getUser(email);
+        Cursor data = database.getUser(email);
         ArrayList<String> passlist = new ArrayList<String>();
         while(data.moveToNext()){
             passlist.add(data.getString(2));
@@ -80,7 +80,7 @@ public class CreateUserActivity extends AppCompatActivity {
         }
 
         Log.d("DATABASE","adding"+email+"/"+pass+"/"+name);
-        boolean insertuser = databaseUser.addUser(email,pass,name);
+        boolean insertuser = database.addUser(email,pass,name);
 
         if (insertuser){
             Toast.makeText(this,"INSERT OK",Toast.LENGTH_SHORT).show();

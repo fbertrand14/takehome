@@ -9,7 +9,7 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.example.takehomedejamobile.R;
-import com.example.takehomedejamobile.modele.DatabaseUserHelper;
+import com.example.takehomedejamobile.modele.DatabaseTakehomeHelper;
 
 public class CardEditActivity extends AppCompatActivity {
 
@@ -18,7 +18,7 @@ public class CardEditActivity extends AppCompatActivity {
     private Integer card_id;
     private boolean edit_mode;
 
-    DatabaseUserHelper databaseUser;
+    DatabaseTakehomeHelper database;
 
     private Button saveCardButton;
     private EditText cardNameTextField;
@@ -32,7 +32,7 @@ public class CardEditActivity extends AppCompatActivity {
 
         user_id = getIntent().getIntExtra("USER_ID",-1);
 
-        databaseUser = new DatabaseUserHelper(this);
+        database = new DatabaseTakehomeHelper(this);
 
         saveCardButton = (Button) findViewById(R.id.saveButton_EditCardActivity);
         cardNameTextField = (EditText) findViewById(R.id.cardNameTextField_EditCardActivity);
@@ -71,7 +71,7 @@ public class CardEditActivity extends AppCompatActivity {
             //TODO Create a modification of line
         }
         else{
-            result = databaseUser.addCard(user_id, name, number, expDate);
+            result = database.addCard(user_id, name, number, expDate);
             if (result){
                 finish();
             }

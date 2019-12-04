@@ -11,7 +11,7 @@ import androidx.annotation.Nullable;
 
 import java.util.ArrayList;
 
-public class DatabaseUserHelper extends SQLiteOpenHelper {
+public class DatabaseTakehomeHelper extends SQLiteOpenHelper {
 
     private static String DATABASE_NAME = "takehome_db";
 
@@ -26,7 +26,7 @@ public class DatabaseUserHelper extends SQLiteOpenHelper {
     private static String TABLE_OPERATION = "operations";
 
 
-    public DatabaseUserHelper(@Nullable Context context) {
+    public DatabaseTakehomeHelper(@Nullable Context context) {
 
         super(context, DATABASE_NAME, null,1);
     }
@@ -124,6 +124,16 @@ public class DatabaseUserHelper extends SQLiteOpenHelper {
         return lCards;
     }
 
+    public boolean userHaveCard(Integer user_id){
+
+        ArrayList<Card> lCards = getUserCard(user_id);
+
+        if (lCards.size()>0){
+            return true;
+        }
+        return false;
+    }
+
     public ArrayList<Operation> getUserOperations(Integer user_id){
         SQLiteDatabase db = this.getReadableDatabase();
 
@@ -148,4 +158,6 @@ public class DatabaseUserHelper extends SQLiteOpenHelper {
         return lOperations;
 
     }
+
+
 }
