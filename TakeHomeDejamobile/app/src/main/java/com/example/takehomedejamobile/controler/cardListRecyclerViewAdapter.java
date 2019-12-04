@@ -16,12 +16,12 @@ import com.example.takehomedejamobile.modele.Card;
 
 import java.util.ArrayList;
 
-public class cardListRecyclerViewAdapter extends RecyclerView.Adapter<cardListRecyclerViewAdapter.CardViewHolder> {
+public class CardListRecyclerViewAdapter extends RecyclerView.Adapter<CardListRecyclerViewAdapter.CardViewHolder> {
 
     private ArrayList<Card> lstCards;
     private Context context;
 
-    public cardListRecyclerViewAdapter(ArrayList<Card> lstCards, Context context) {
+    public CardListRecyclerViewAdapter(ArrayList<Card> lstCards, Context context) {
         this.lstCards = lstCards;
         this.context = context;
     }

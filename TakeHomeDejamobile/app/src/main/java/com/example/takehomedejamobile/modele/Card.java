@@ -18,4 +18,5 @@ public class Card {
         return name;
     }
     public String getNumber(){ return number; }
+    public  Integer getId(){ return id;}
 }

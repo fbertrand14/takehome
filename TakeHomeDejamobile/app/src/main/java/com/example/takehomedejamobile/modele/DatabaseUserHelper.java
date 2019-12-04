@@ -39,6 +39,8 @@ public class DatabaseUserHelper extends SQLiteOpenHelper {
         String create_cards = "CREATE TABLE "+ TABLE_CARDS +" (ID INTEGER PRIMARY KEY AUTOINCREMENT,userID INTEGER,name TEXT,number TEXT,date_val DATE)";
         db.execSQL(create_cards);
 
+        String create_operations = "CREATE TABLE "+ TABLE_OPERATION +" (ID INTEGER PRIMARY KEY AUTOINCREMENT,cardID INTEGER,amount REAL)";
+        db.execSQL(create_operations);
     }
 
     @Override
@@ -81,6 +83,21 @@ public class DatabaseUserHelper extends SQLiteOpenHelper {
         return true;
     }
 
+    public boolean addOperation(Integer card_id,Float amount){
+        SQLiteDatabase db = this.getReadableDatabase();
+        ContentValues contentValues = new ContentValues();
+        contentValues.put("cardID", card_id);
+        contentValues.put("amount", amount);
+        long result = db.insert(TABLE_OPERATION, null,contentValues);
+
+        Log.d("DATABASE INSERT", "inserting in operations : "+card_id+" | " + amount );
+
+        if (result == -1){
+            return false;
+        }
+        return true;
+    }
+
     public Cursor getUser(String email){
         SQLiteDatabase db = this.getReadableDatabase();
         String query = "SELECT * FROM users WHERE email ='" +email+"'";
@@ -105,5 +122,30 @@ public class DatabaseUserHelper extends SQLiteOpenHelper {
         }
 
         return lCards;
+    }
+
+    public ArrayList<Operation> getUserOperations(Integer user_id){
+        SQLiteDatabase db = this.getReadableDatabase();
+
+        String query = "SELECT c.ID,c.name,c.number,c.date_val,o.amount FROM cards c INNER JOIN operations o ON c.ID = o.cardID WHERE c.userID=" + user_id +" ORDER BY o.ID";
+        Cursor data = db.rawQuery(query,null);
+
+        ArrayList<Operation> lOperations = new ArrayList<>();
+
+        while(data.moveToNext()){
+            Integer id = data.getInt(0);
+            String name = data.getString(1);
+            String number = data.getString(2);
+            String expDate = data.getString(3);
+            Float amount = data.getFloat(4);
+            Card card = new Card(id, name, number, expDate);
+
+            Operation op = new Operation(card, amount);
+
+            lOperations.add(op);
+        }
+
+        return lOperations;
+
     }
 }
