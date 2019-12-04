@@ -92,6 +92,8 @@ public class CardEditActivity extends AppCompatActivity {
             return;
         }
 
+
+
         if (edit_mode){
             result = database.updateCard(name, number,card_id);
             if (result){

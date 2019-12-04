@@ -58,7 +58,7 @@ public class PayActivity extends AppCompatActivity {
     private  void initSpinner(){
         ArrayList<String> lCardname = new ArrayList<>();
         for (  Card c :lstCards){
-            lCardname.add(c.getName());
+            lCardname.add(c.getName()+"  "+ c.getNumber());
         }
 
         ArrayAdapter<String> cardAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item,lCardname);
@@ -67,7 +67,6 @@ public class PayActivity extends AppCompatActivity {
     }
 
     private void pay(){
-        //TODO create pay fonction in SQL
 
         Card selectedCard = lstCards.get(cardSpinner.getSelectedItemPosition());
 
