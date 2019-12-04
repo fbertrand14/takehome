@@ -36,7 +36,7 @@ public class DatabaseTakehomeHelper extends SQLiteOpenHelper {
         String create_users = "CREATE TABLE "+ TABLE_USER +" (ID INTEGER PRIMARY KEY AUTOINCREMENT,email TEXT,pass TEXT,name TEXT)";
         db.execSQL(create_users);
 
-        String create_cards = "CREATE TABLE "+ TABLE_CARDS +" (ID INTEGER PRIMARY KEY AUTOINCREMENT,userID INTEGER,name TEXT,number TEXT,date_val DATE)";
+        String create_cards = "CREATE TABLE "+ TABLE_CARDS +" (ID INTEGER PRIMARY KEY AUTOINCREMENT,userID INTEGER,name TEXT,number TEXT)";
         db.execSQL(create_cards);
 
         String create_operations = "CREATE TABLE "+ TABLE_OPERATION +" (ID INTEGER PRIMARY KEY AUTOINCREMENT,cardID INTEGER,amount REAL)";
@@ -66,16 +66,15 @@ public class DatabaseTakehomeHelper extends SQLiteOpenHelper {
         return true;
     }
 
-    public boolean addCard(Integer userid,String name,String number,String date){
+    public boolean addCard(Integer userid,String name,String number){
         SQLiteDatabase db = this.getReadableDatabase();
         ContentValues contentValues = new ContentValues();
         contentValues.put("userID", userid);
         contentValues.put("name", name);
         contentValues.put("number", number);
-        contentValues.put("date_val", date);
         long result = db.insert(TABLE_CARDS, null,contentValues);
 
-        Log.d("DATABASE INSERT", "inserting in cards : "+userid+" | " + name + " | "+ number+ " | "+ date);
+        Log.d("DATABASE INSERT", "inserting in cards : "+userid+" | " + name + " | "+ number);
 
         if (result == -1){
             return false;
@@ -98,11 +97,54 @@ public class DatabaseTakehomeHelper extends SQLiteOpenHelper {
         return true;
     }
 
+    public boolean deleteCard(Integer card_id){
+        SQLiteDatabase db = this.getReadableDatabase();
+        long result = db.delete(TABLE_CARDS, "ID = "+ card_id,null);
+        if (result == -1){
+            return false;
+        }
+        return true;
+    }
+
+    public boolean updateCard(String name,String number,Integer card_id){
+        SQLiteDatabase db = this.getReadableDatabase();
+
+        ContentValues contentValues = new ContentValues();
+        contentValues.put("name", name);
+        contentValues.put("number", number);
+
+        long result = db.update(TABLE_CARDS, contentValues, " ID = "+card_id, null);
+
+        if (result == -1){
+            return false;
+        }
+        return true;
+    }
+
     public Cursor getUser(String email){
         SQLiteDatabase db = this.getReadableDatabase();
         String query = "SELECT * FROM users WHERE email ='" +email+"'";
         Cursor data = db.rawQuery(query,null);
         return data;
+    }
+
+    public Card getCard(Integer card_id){
+        SQLiteDatabase db = this.getReadableDatabase();
+        String query = "SELECT * FROM "+ TABLE_CARDS + " WHERE ID = " + card_id;
+        Cursor data = db.rawQuery(query,null);
+
+        ArrayList<Card> lCards = new ArrayList<Card>();
+
+        while(data.moveToNext()){
+            Integer id = data.getInt(0);
+            String name = data.getString(2);
+            String number = data.getString(3);
+            Card card = new Card(id, name, number);
+            lCards.add(card);
+        }
+
+        return lCards.get(0);
+
     }
 
     public ArrayList<Card> getUserCard(Integer user_id){
@@ -116,8 +158,7 @@ public class DatabaseTakehomeHelper extends SQLiteOpenHelper {
             Integer id = data.getInt(0);
             String name = data.getString(2);
             String number = data.getString(3);
-            String expDate = data.getString(4);
-            Card card = new Card(id, name, number, expDate);
+            Card card = new Card(id, name, number);
             lCards.add(card);
         }
 
@@ -148,7 +189,7 @@ public class DatabaseTakehomeHelper extends SQLiteOpenHelper {
             String number = data.getString(2);
             String expDate = data.getString(3);
             Float amount = data.getFloat(4);
-            Card card = new Card(id, name, number, expDate);
+            Card card = new Card(id, name, number);
 
             Operation op = new Operation(card, amount);
 

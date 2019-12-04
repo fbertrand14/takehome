@@ -71,7 +71,7 @@ public class CardsListActivity extends AppCompatActivity {
 
         ArrayList<Card> listCards = database.getUserCard(user_id);
 
-        CardListRecyclerViewAdapter adapter = new CardListRecyclerViewAdapter(listCards,this);
+        CardListRecyclerViewAdapter adapter = new CardListRecyclerViewAdapter(listCards,user_id,this);
 
         cardsRecyclerView.setAdapter(adapter);
         cardsRecyclerView.setLayoutManager(new LinearLayoutManager(this));

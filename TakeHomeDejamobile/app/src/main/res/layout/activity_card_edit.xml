@@ -19,27 +19,15 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <EditText
-        android:id="@+id/expDateTextField_EditCardActivity"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:ems="10"
-        android:hint="@string/expirationdate"
-        android:inputType="date"
-        app:layout_constraintEnd_toEndOf="@+id/cardNumberTextField_EditCardActivity"
-        app:layout_constraintStart_toStartOf="@+id/cardNumberTextField_EditCardActivity"
-        app:layout_constraintTop_toBottomOf="@+id/cardNumberTextField_EditCardActivity" />
-
     <Button
         android:id="@+id/saveButton_EditCardActivity"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
         android:text="@string/save"
-        app:layout_constraintEnd_toEndOf="@+id/expDateTextField_EditCardActivity"
-        app:layout_constraintStart_toStartOf="@+id/expDateTextField_EditCardActivity"
-        app:layout_constraintTop_toBottomOf="@+id/expDateTextField_EditCardActivity" />
+        app:layout_constraintEnd_toEndOf="@+id/cardNumberTextField_EditCardActivity"
+        app:layout_constraintStart_toStartOf="@+id/cardNumberTextField_EditCardActivity"
+        app:layout_constraintTop_toBottomOf="@+id/cardNumberTextField_EditCardActivity" />
 
     <EditText
         android:id="@+id/cardNumberTextField_EditCardActivity"
@@ -52,4 +40,14 @@
         app:layout_constraintEnd_toEndOf="@+id/cardNameTextField_EditCardActivity"
         app:layout_constraintStart_toStartOf="@+id/cardNameTextField_EditCardActivity"
         app:layout_constraintTop_toBottomOf="@+id/cardNameTextField_EditCardActivity" />
+
+    <Button
+        android:id="@+id/deleteButton_EditCardActivity"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:text="@string/delete"
+        app:layout_constraintEnd_toEndOf="@+id/saveButton_EditCardActivity"
+        app:layout_constraintStart_toStartOf="@+id/saveButton_EditCardActivity"
+        app:layout_constraintTop_toBottomOf="@+id/saveButton_EditCardActivity" />
 </androidx.constraintlayout.widget.ConstraintLayout>

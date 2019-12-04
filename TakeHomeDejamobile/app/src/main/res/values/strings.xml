@@ -16,4 +16,5 @@
     <string name="save">Save</string>
     <string name="SelectCard">Select a card :</string>
     <string name="Amount">Amount : </string>
+    <string name="delete">Delete</string>
 </resources>
