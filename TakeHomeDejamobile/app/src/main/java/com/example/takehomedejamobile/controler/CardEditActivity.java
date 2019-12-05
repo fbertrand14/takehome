@@ -12,6 +12,9 @@ import com.example.takehomedejamobile.R;
 import com.example.takehomedejamobile.modele.Card;
 import com.example.takehomedejamobile.modele.DatabaseTakehomeHelper;
 
+/**
+ * Controler for the activity used to create, edit and delete cards
+ */
 public class CardEditActivity extends AppCompatActivity {
 
     private Integer user_id;
@@ -26,6 +29,12 @@ public class CardEditActivity extends AppCompatActivity {
     private EditText cardNameTextField;
     private EditText cardNumberTextField;
 
+    /**
+     * On create initialise all object of the activity
+     *
+     * @param savedInstanceState
+     *
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -56,6 +65,7 @@ public class CardEditActivity extends AppCompatActivity {
             }
         });
 
+        // retrive card_id and user_id from the last activity
         card_id = getIntent().getIntExtra("CARD_ID",-1);
         user_id = getIntent().getIntExtra("USER_ID",-1);
 
@@ -70,12 +80,18 @@ public class CardEditActivity extends AppCompatActivity {
 
     }
 
+    /**
+     * this fonction load the card name and number if we are editing a card
+     */
     private void loadCard(){
         Card card = database.getCard(card_id);
         cardNameTextField.setText(card.getName());
         cardNumberTextField.setText(card.getNumber());
     }
 
+    /**
+     * This fonction save all modification to a card or create it if it's not a edition
+     */
     private void savecard(){
         boolean result;
 
@@ -114,6 +130,9 @@ public class CardEditActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     * This function is use to delete the card we are editing
+     */
     private void deleteCard(){
         boolean result;
         result = database.deleteCard(card_id);

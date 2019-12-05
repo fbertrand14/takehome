@@ -19,18 +19,36 @@ import com.example.takehomedejamobile.modele.Card;
 
 import java.util.ArrayList;
 
+/**
+ * This object adapt cards to a RecyclerView to dispolay them
+ */
 public class CardListRecyclerViewAdapter extends RecyclerView.Adapter<CardListRecyclerViewAdapter.CardViewHolder> {
 
     private ArrayList<Card> lstCards;
     private Context context;
     private Integer user_id;
 
+    /**
+     * Constructor of the adater
+     * @param lstCards
+     *      ArrayList of cards to display
+     * @param user_id
+     *      id of the user for all this cards
+     * @param context
+     *      context of the activity
+     */
     public CardListRecyclerViewAdapter(ArrayList<Card> lstCards,Integer user_id,Context context) {
         this.lstCards = lstCards;
         this.context = context;
         this.user_id = user_id;
     }
 
+    /**
+     *  this function create a view holder to hold every instances of cards
+     * @param parent
+     * @param viewType
+     * @return A CardViewHolder to holde the view
+     */
     @NonNull
     @Override
     public CardViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -39,6 +57,13 @@ public class CardListRecyclerViewAdapter extends RecyclerView.Adapter<CardListRe
         return holder;
     }
 
+    /**
+     * This function if used to fill every holder
+     * @param holder
+     *      holder we are filling
+     * @param position
+     *      position of the holder we are filling (index)
+     */
     @Override
     public void onBindViewHolder(@NonNull CardViewHolder holder, int position) {
         holder.cardName.setText(lstCards.get(position).getName());
@@ -46,11 +71,18 @@ public class CardListRecyclerViewAdapter extends RecyclerView.Adapter<CardListRe
         holder.card_id = lstCards.get(position).getId();
     }
 
+    /**
+     * This function get the number of line we need in the Recyclerview
+     * @return the number of elements to display
+     */
     @Override
     public int getItemCount() {
         return lstCards.size();
     }
 
+    /**
+     * This object is the ViewHolder for every object in the RecyclerView
+     */
     public class CardViewHolder extends RecyclerView.ViewHolder{
 
         Integer card_id = -1;
@@ -60,6 +92,10 @@ public class CardListRecyclerViewAdapter extends RecyclerView.Adapter<CardListRe
         ImageButton editButton;
         ConstraintLayout parentLayout;
 
+        /**
+         * Constructor initialize every object in the view
+         * @param itemView
+         */
         public CardViewHolder(@NonNull View itemView) {
             super(itemView);
 
@@ -78,6 +114,9 @@ public class CardListRecyclerViewAdapter extends RecyclerView.Adapter<CardListRe
 
         }
 
+        /**
+         * this function open the edition activity and give it the user_id and the card_id for it's card
+         */
         private void openCardEdit(){
             Intent intent = new Intent(context,CardEditActivity.class);
             intent.putExtra("CARD_ID", card_id);

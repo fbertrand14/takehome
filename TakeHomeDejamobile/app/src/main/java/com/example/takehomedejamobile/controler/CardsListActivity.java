@@ -14,7 +14,9 @@ import com.example.takehomedejamobile.modele.Card;
 import com.example.takehomedejamobile.modele.DatabaseTakehomeHelper;
 
 import java.util.ArrayList;
-
+/**
+ * Controler for the activity used to display all card of a user
+ */
 public class CardsListActivity extends AppCompatActivity {
 
     private Integer user_id;
@@ -24,6 +26,10 @@ public class CardsListActivity extends AppCompatActivity {
 
     DatabaseTakehomeHelper database;
 
+    /**
+     * On create initialise all object of the activity
+     * @param savedInstanceState
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -47,6 +53,9 @@ public class CardsListActivity extends AppCompatActivity {
         initRecyclerView();
     }
 
+    /**
+     * on resume refresh the content of the RecyclerView to keep it up to date
+     */
     @Override
     protected void onResume() {
         super.onResume();
@@ -54,19 +63,20 @@ public class CardsListActivity extends AppCompatActivity {
         initRecyclerView();
     }
 
+    /**
+     * This function open the cardEdit activity with only a user_id. it will create a new card.
+     */
     private void openCardEdit(){
         Intent intent = new Intent(this,CardEditActivity.class);
         intent.putExtra("USER_ID", user_id);
         startActivity(intent);
     }
 
-    private void openCardEdit(Integer cardId){
-        Intent intent = new Intent(this,CardEditActivity.class);
-        intent.putExtra("CARD_ID", cardId);
-        intent.putExtra("USER_ID", user_id);
-        startActivity(intent);
-    }
-
+    /**
+     * This function load all card of a user in the RecyclerView using the CardListRecyclerViewAdapter
+     *
+     * @see CardListRecyclerViewAdapter
+     */
     private void initRecyclerView(){
 
         ArrayList<Card> listCards = database.getUserCard(user_id);

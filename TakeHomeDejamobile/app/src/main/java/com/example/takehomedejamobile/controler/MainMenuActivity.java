@@ -15,7 +15,9 @@ import com.example.takehomedejamobile.modele.DatabaseTakehomeHelper;
 import com.example.takehomedejamobile.modele.Operation;
 
 import java.util.ArrayList;
-
+/**
+ * Controler for the main menu activity
+ */
 public class MainMenuActivity extends AppCompatActivity {
 
     private Button paybutton;
@@ -26,6 +28,10 @@ public class MainMenuActivity extends AppCompatActivity {
 
     private Integer user_id;
 
+    /**
+     * On create initialise all object of the activity
+     * @param savedInstanceState
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -57,6 +63,9 @@ public class MainMenuActivity extends AppCompatActivity {
         initRecyclerView();
     }
 
+    /**
+     * on resume refresh the content of the RecyclerView to keep it up to date
+     */
     @Override
     protected void onResume() {
         super.onResume();
@@ -64,12 +73,22 @@ public class MainMenuActivity extends AppCompatActivity {
         initRecyclerView();
     }
 
+    /**
+     * this function open the CardListActivity for the connected user
+     * @see CardsListActivity
+     *
+     */
     private void openCardsList(){
         Intent intent = new Intent(this,CardsListActivity.class);
         intent.putExtra("USER_ID", user_id);
         startActivity(intent);
     }
 
+    /**
+     * this function open the PayActivity for the connected user
+     * @see PayActivity
+     *
+     */
     private void openPay(){
 
         if (database.userHaveCard(user_id)){
@@ -83,6 +102,11 @@ public class MainMenuActivity extends AppCompatActivity {
 
     }
 
+    /**
+     * This function load all operation of a user in the RecyclerView using the OperationListRecyclerViewAdapter
+     *
+     * @see OperationListRecyclerViewAdapter
+     */
     private void initRecyclerView(){
 
         ArrayList<Operation> loperations = database.getUserOperations(user_id);

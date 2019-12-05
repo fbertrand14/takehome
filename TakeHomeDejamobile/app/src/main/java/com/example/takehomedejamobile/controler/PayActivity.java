@@ -17,6 +17,9 @@ import com.example.takehomedejamobile.modele.DatabaseTakehomeHelper;
 
 import java.util.ArrayList;
 
+/**
+ * Controler for the activity used to pay (simulation)
+ */
 public class PayActivity extends AppCompatActivity {
 
     private Integer user_id;
@@ -28,6 +31,10 @@ public class PayActivity extends AppCompatActivity {
     private Spinner cardSpinner;
     private EditText amountEditText;
 
+    /**
+     * On create initialise all object of the activity
+     * @param savedInstanceState
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -55,6 +62,9 @@ public class PayActivity extends AppCompatActivity {
 
     }
 
+    /**
+     * this function initilize the spinner used to select one card of the user.
+     */
     private  void initSpinner(){
         ArrayList<String> lCardname = new ArrayList<>();
         for (  Card c :lstCards){
@@ -66,6 +76,9 @@ public class PayActivity extends AppCompatActivity {
         cardSpinner.setAdapter(cardAdapter);
     }
 
+    /**
+     * this function check if all informations given are correct. If they are create the operation.
+     */
     private void pay(){
 
         Card selectedCard = lstCards.get(cardSpinner.getSelectedItemPosition());
@@ -83,6 +96,7 @@ public class PayActivity extends AppCompatActivity {
 
         boolean insertuser = database.addOperation(selectedCard.getId(),amount);
 
+        // user feedback
         if (insertuser){
             Toast.makeText(this,"INSERT OK",Toast.LENGTH_SHORT).show();
             finish();

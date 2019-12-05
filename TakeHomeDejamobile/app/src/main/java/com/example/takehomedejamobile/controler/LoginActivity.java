@@ -14,7 +14,9 @@ import com.example.takehomedejamobile.R;
 import com.example.takehomedejamobile.modele.DatabaseTakehomeHelper;
 
 import java.util.ArrayList;
-
+/**
+ * Controler for the activity used to login
+ */
 public class LoginActivity extends AppCompatActivity {
 
     DatabaseTakehomeHelper database;
@@ -25,7 +27,10 @@ public class LoginActivity extends AppCompatActivity {
     private EditText passwordTextField;
     private Button connectButton;
     private Button newaccountButton;
-
+    /**
+     * On create initialise all object of the activity
+     * @param savedInstanceState
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -54,11 +59,17 @@ public class LoginActivity extends AppCompatActivity {
         });
     }
 
+    /**
+     * This function open the activity to create a new account
+     */
     private void openCreateUserActivity(){
         Intent intent = new Intent(this,CreateUserActivity.class);
         startActivity(intent);
     }
 
+    /**
+     *  This function check if all information given are correct. If they are open the main menu activity
+     */
     private void connect(){
         String email = String.valueOf(loginTextField.getText());
         String pass = String.valueOf(passwordTextField.getText());
@@ -81,6 +92,7 @@ public class LoginActivity extends AppCompatActivity {
             return;
         }
 
+        // user feedback
         if (pass.equals(passlist.get(0))){
             //open the main menu
             Toast.makeText(this,"Connecting",Toast.LENGTH_SHORT).show();
@@ -93,6 +105,11 @@ public class LoginActivity extends AppCompatActivity {
 
     }
 
+    /**
+     * This function open the main menu activity for a specific user.
+     * @param user_id
+     *      ID of the user connecting
+     */
     private void openMainMenu(Integer user_id){
         Intent intent = new Intent(this,MainMenuActivity.class);
         intent.putExtra("USER_ID", user_id);

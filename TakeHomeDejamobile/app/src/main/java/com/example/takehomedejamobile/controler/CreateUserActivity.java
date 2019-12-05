@@ -14,7 +14,9 @@ import com.example.takehomedejamobile.R;
 import com.example.takehomedejamobile.modele.DatabaseTakehomeHelper;
 
 import java.util.ArrayList;
-
+/**
+ * Controler for the activity used to create a new user with email, password and name
+ */
 public class CreateUserActivity extends AppCompatActivity {
 
     DatabaseTakehomeHelper database;
@@ -25,6 +27,10 @@ public class CreateUserActivity extends AppCompatActivity {
     private EditText nameTextField;
 
 
+    /**
+     * On create initialise all object of the activity
+     * @param savedInstanceState
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -46,6 +52,9 @@ public class CreateUserActivity extends AppCompatActivity {
         });
     }
 
+    /**
+     * this function check if all information given by the user are correct, if they are it create the user.
+     */
     public void addUser(){
 
         String email = String.valueOf(emailTextField.getText());
@@ -63,25 +72,27 @@ public class CreateUserActivity extends AppCompatActivity {
         while(data.moveToNext()){
             passlist.add(data.getString(2));
         }
+        //email allready used
         if (passlist.size() > 1){
-            Toast.makeText(this,"email already used",Toast.LENGTH_SHORT).show();
+            Toast.makeText(this,"email allready used",Toast.LENGTH_SHORT).show();
             return;
         }
-
-
+        // password is empty
         if (pass.isEmpty()){
             Toast.makeText(this,"invalid password : " +pass ,Toast.LENGTH_SHORT).show();
             return;
         }
-
+        // no name given
         if (name.isEmpty()){
             Toast.makeText(this,"name is empty",Toast.LENGTH_SHORT).show();
             return;
         }
 
+        // Insert in database
         Log.d("DATABASE","adding"+email+"/"+pass+"/"+name);
         boolean insertuser = database.addUser(email,pass,name);
 
+        // user feedback
         if (insertuser){
             Toast.makeText(this,"INSERT OK",Toast.LENGTH_SHORT).show();
             finish();
