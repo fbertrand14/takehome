@@ -1,9 +1,11 @@
 package com.example.takehomedejamobile.controler;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.LifecycleOwner;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProviders;
 
 import android.content.Intent;
-import android.database.Cursor;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -11,22 +13,26 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.example.takehomedejamobile.R;
-import com.example.takehomedejamobile.modele.DatabaseTakehomeHelper;
+import com.example.takehomedejamobile.modele.User;
+import com.example.takehomedejamobile.modele.UserViewModele;
 
-import java.util.ArrayList;
+import java.util.List;
+
 /**
  * Controler for the activity used to login
  */
 public class LoginActivity extends AppCompatActivity {
 
-    DatabaseTakehomeHelper database;
+    private Integer user_id = -1;
 
-    Integer user_id = -1;
+    private UserViewModele userModele;
 
     private EditText loginTextField;
     private EditText passwordTextField;
     private Button connectButton;
     private Button newaccountButton;
+
+    private List<User> listAllUsers;
     /**
      * On create initialise all object of the activity
      * @param savedInstanceState
@@ -36,7 +42,7 @@ public class LoginActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
-        database = new DatabaseTakehomeHelper(this);
+        userModele = ViewModelProviders.of(this).get(UserViewModele.class);
 
         loginTextField = (EditText) findViewById(R.id.loginfield_LoginActivity);
         passwordTextField = (EditText) findViewById(R.id.passwordfield_LoginActivity);
@@ -57,6 +63,13 @@ public class LoginActivity extends AppCompatActivity {
                 connect();
             }
         });
+
+        userModele.getAllUsers().observe((LifecycleOwner) this, new Observer<List<User>>() {
+            @Override
+            public void onChanged(List<User> users) {
+                listAllUsers = users;
+            }
+        });
     }
 
     /**
@@ -75,26 +88,18 @@ public class LoginActivity extends AppCompatActivity {
         String pass = String.valueOf(passwordTextField.getText());
 
         // Retrive all password for a known email and put it in passlist
-        Cursor data = database.getUser(email);
-        ArrayList<String> passlist = new ArrayList<String>();
-        while(data.moveToNext()){
-            passlist.add(data.getString(2));
-            user_id = data.getInt(0);
-        }
+        User user = listAllUsers.get(0);
+
         // No user found for this email
-        if (passlist.size()==0){
+        if (user==null){
             Toast.makeText(this,"Email unknown",Toast.LENGTH_SHORT).show();
-            return;
-        }
-        // if more than 1 user have the same email (not supposed to happen)
-        if (passlist.size() > 1){
-            Toast.makeText(this,"Something weird happened",Toast.LENGTH_SHORT).show();
             return;
         }
 
         // user feedback
-        if (pass.equals(passlist.get(0))){
+        if (pass.equals(user.getPassword())){
             //open the main menu
+            user_id = user.getId();
             Toast.makeText(this,"Connecting",Toast.LENGTH_SHORT).show();
             openMainMenu(user_id);
         }
@@ -102,6 +107,7 @@ public class LoginActivity extends AppCompatActivity {
             Toast.makeText(this,"Incorrect password",Toast.LENGTH_SHORT).show();
             return;
         }
+
 
     }
 

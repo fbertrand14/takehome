@@ -1,6 +1,7 @@
 package com.example.takehomedejamobile.controler;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.ViewModelProviders;
 
 import android.os.Bundle;
 import android.view.View;
@@ -10,7 +11,9 @@ import android.widget.Toast;
 
 import com.example.takehomedejamobile.R;
 import com.example.takehomedejamobile.modele.Card;
-import com.example.takehomedejamobile.modele.DatabaseTakehomeHelper;
+import com.example.takehomedejamobile.modele.CardViewModele;
+import com.example.takehomedejamobile.modele.TakehomeDataBase;
+import com.example.takehomedejamobile.modele.UserViewModele;
 
 /**
  * Controler for the activity used to create, edit and delete cards
@@ -22,7 +25,7 @@ public class CardEditActivity extends AppCompatActivity {
     private Integer card_id;
     private boolean edit_mode;
 
-    DatabaseTakehomeHelper database;
+    private CardViewModele cardModele;
 
     private Button saveCardButton;
     private Button deleteCardButton;
@@ -42,7 +45,7 @@ public class CardEditActivity extends AppCompatActivity {
 
         user_id = getIntent().getIntExtra("USER_ID",-1);
 
-        database = new DatabaseTakehomeHelper(this);
+        cardModele = ViewModelProviders.of(this).get(CardViewModele.class);
 
         saveCardButton = (Button) findViewById(R.id.saveButton_EditCardActivity);
         deleteCardButton = (Button) findViewById(R.id.deleteButton_EditCardActivity);
@@ -84,7 +87,7 @@ public class CardEditActivity extends AppCompatActivity {
      * this fonction load the card name and number if we are editing a card
      */
     private void loadCard(){
-        Card card = database.getCard(card_id);
+        Card card = new Card(1, 5, "kdfgjk", "65465");
         cardNameTextField.setText(card.getName());
         cardNumberTextField.setText(card.getNumber());
     }
@@ -93,7 +96,6 @@ public class CardEditActivity extends AppCompatActivity {
      * This fonction save all modification to a card or create it if it's not a edition
      */
     private void savecard(){
-        boolean result;
 
         String name = String.valueOf(cardNameTextField.getText());
         String number = String.valueOf(cardNumberTextField.getText());
@@ -108,25 +110,14 @@ public class CardEditActivity extends AppCompatActivity {
             return;
         }
 
-
-
         if (edit_mode){
-            result = database.updateCard(name, number,card_id);
-            if (result){
-                finish();
-            }
-            else{
-                Toast.makeText(this,"Update Error",Toast.LENGTH_SHORT).show();
-            }
+            //TODO UPDATE LINE
+            finish();
         }
         else{
-            result = database.addCard(user_id, name, number);
-            if (result){
-                finish();
-            }
-            else{
-                Toast.makeText(this,"Insert Error",Toast.LENGTH_SHORT).show();
-            }
+            Card card = new Card(null, user_id, name, number);
+            cardModele.insertCard(card);
+            finish();
         }
     }
 
@@ -135,7 +126,7 @@ public class CardEditActivity extends AppCompatActivity {
      */
     private void deleteCard(){
         boolean result;
-        result = database.deleteCard(card_id);
+        result = true;
 
         if (result){
             finish();

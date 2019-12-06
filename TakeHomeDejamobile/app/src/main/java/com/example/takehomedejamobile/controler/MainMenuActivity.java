@@ -11,7 +11,6 @@ import android.widget.Button;
 import android.widget.Toast;
 
 import com.example.takehomedejamobile.R;
-import com.example.takehomedejamobile.modele.DatabaseTakehomeHelper;
 import com.example.takehomedejamobile.modele.Operation;
 
 import java.util.ArrayList;
@@ -24,7 +23,6 @@ public class MainMenuActivity extends AppCompatActivity {
     private Button cardsButton;
     private RecyclerView operationRecyclerView;
 
-    DatabaseTakehomeHelper database;
 
     private Integer user_id;
 
@@ -38,8 +36,6 @@ public class MainMenuActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main_menu);
 
         user_id = getIntent().getIntExtra("USER_ID",-1);
-
-        database = new DatabaseTakehomeHelper(this);
 
         paybutton = (Button) findViewById(R.id.paybutton_MainMenuActivity);
         cardsButton = (Button) findViewById(R.id.cardsbutton_MainMenuActivity);
@@ -91,7 +87,7 @@ public class MainMenuActivity extends AppCompatActivity {
      */
     private void openPay(){
 
-        if (database.userHaveCard(user_id)){
+        if (true){
             Intent intent = new Intent(this,PayActivity.class);
             intent.putExtra("USER_ID", user_id);
             startActivity(intent);
@@ -109,12 +105,10 @@ public class MainMenuActivity extends AppCompatActivity {
      */
     private void initRecyclerView(){
 
-        ArrayList<Operation> loperations = database.getUserOperations(user_id);
+        //OperationListRecyclerViewAdapter adapter = new OperationListRecyclerViewAdapter(loperations,this);
 
-        OperationListRecyclerViewAdapter adapter = new OperationListRecyclerViewAdapter(loperations,this);
-
-        operationRecyclerView.setAdapter(adapter);
-        operationRecyclerView.setLayoutManager(new LinearLayoutManager(this));
+        //operationRecyclerView.setAdapter(adapter);
+        //operationRecyclerView.setLayoutManager(new LinearLayoutManager(this));
     }
 
 }

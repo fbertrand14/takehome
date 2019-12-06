@@ -1,8 +1,10 @@
 package com.example.takehomedejamobile.controler;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.ViewModelProvider;
+import androidx.lifecycle.ViewModelProviders;
 
-import android.database.Cursor;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -11,15 +13,17 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.example.takehomedejamobile.R;
-import com.example.takehomedejamobile.modele.DatabaseTakehomeHelper;
+import com.example.takehomedejamobile.modele.TakehomeDataBase;
+import com.example.takehomedejamobile.modele.User;
+import com.example.takehomedejamobile.modele.UserDao;
+import com.example.takehomedejamobile.modele.UserViewModele;
 
-import java.util.ArrayList;
 /**
  * Controler for the activity used to create a new user with email, password and name
  */
 public class CreateUserActivity extends AppCompatActivity {
 
-    DatabaseTakehomeHelper database;
+    private UserViewModele userModele;
 
     private Button newaccountButton;
     private EditText emailTextField;
@@ -36,7 +40,7 @@ public class CreateUserActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_user);
 
-        database = new DatabaseTakehomeHelper(this);
+        userModele = ViewModelProviders.of(this).get(UserViewModele.class);
 
         emailTextField = (EditText) findViewById(R.id.emailfield_createUserActivity);
         passwordTextField = (EditText) findViewById(R.id.passwordfield_createUserActivity);
@@ -66,17 +70,7 @@ public class CreateUserActivity extends AppCompatActivity {
             Toast.makeText(this,"invalid email address : " +email,Toast.LENGTH_SHORT).show();
             return;
         }
-        //  stop insert on already existing email
-        Cursor data = database.getUser(email);
-        ArrayList<String> passlist = new ArrayList<String>();
-        while(data.moveToNext()){
-            passlist.add(data.getString(2));
-        }
-        //email allready used
-        if (passlist.size() > 1){
-            Toast.makeText(this,"email allready used",Toast.LENGTH_SHORT).show();
-            return;
-        }
+
         // password is empty
         if (pass.isEmpty()){
             Toast.makeText(this,"invalid password : " +pass ,Toast.LENGTH_SHORT).show();
@@ -87,18 +81,28 @@ public class CreateUserActivity extends AppCompatActivity {
             Toast.makeText(this,"name is empty",Toast.LENGTH_SHORT).show();
             return;
         }
+        //  TODO stop insert on already existing email
+        /*Cursor data = database.getUser(email);
+        ArrayList<String> passlist = new ArrayList<String>();
+        while(data.moveToNext()){
+            passlist.add(data.getString(2));
+        }
+        //email allready used
+        if (passlist.size() > 1){
+            Toast.makeText(this,"email allready used",Toast.LENGTH_SHORT).show();
+            return;
+        }*/
 
         // Insert in database
         Log.d("DATABASE","adding"+email+"/"+pass+"/"+name);
-        boolean insertuser = database.addUser(email,pass,name);
 
-        // user feedback
-        if (insertuser){
-            Toast.makeText(this,"INSERT OK",Toast.LENGTH_SHORT).show();
-            finish();
-        }
-        else{
-            Toast.makeText(this,"INSERT FAIL",Toast.LENGTH_SHORT).show();
-        }
+        User user = new User(null, email, name, pass);
+        userModele.insertUser(user);
+
+        Toast.makeText(this,"INSERT OK",Toast.LENGTH_SHORT).show();
+        finish();
+
     }
+
+
 }

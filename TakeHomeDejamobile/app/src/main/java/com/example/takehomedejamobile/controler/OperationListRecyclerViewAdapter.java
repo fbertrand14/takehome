@@ -59,7 +59,7 @@ public class OperationListRecyclerViewAdapter extends RecyclerView.Adapter<Opera
      */
     @Override
     public void onBindViewHolder(@NonNull OperationViewHolder holder, int position) {
-        holder.cardName.setText(lstoperations.get(position).getCard_used().getName());
+        holder.cardName.setText(lstoperations.get(position).getCard_id());
         holder.operationAmount.setText(String.valueOf(lstoperations.get(position).getAmount())+" $ ");
     }
 

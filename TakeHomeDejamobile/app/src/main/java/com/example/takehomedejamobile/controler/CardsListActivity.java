@@ -1,6 +1,8 @@
 package com.example.takehomedejamobile.controler;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -11,9 +13,11 @@ import android.widget.Button;
 
 import com.example.takehomedejamobile.R;
 import com.example.takehomedejamobile.modele.Card;
-import com.example.takehomedejamobile.modele.DatabaseTakehomeHelper;
+import com.example.takehomedejamobile.modele.CardViewModele;
 
 import java.util.ArrayList;
+import java.util.List;
+
 /**
  * Controler for the activity used to display all card of a user
  */
@@ -24,7 +28,7 @@ public class CardsListActivity extends AppCompatActivity {
     private Button addcardbutton;
     private RecyclerView cardsRecyclerView;
 
-    DatabaseTakehomeHelper database;
+    private CardViewModele cardModele;
 
     /**
      * On create initialise all object of the activity
@@ -37,8 +41,6 @@ public class CardsListActivity extends AppCompatActivity {
 
         user_id = getIntent().getIntExtra("USER_ID",-1);
 
-        database = new DatabaseTakehomeHelper(this);
-
         addcardbutton = (Button) findViewById(R.id.addcard_CardsListActivity);
         cardsRecyclerView = (RecyclerView) findViewById(R.id.listcardrecyclerview_CardsListActivity);
 
@@ -50,18 +52,22 @@ public class CardsListActivity extends AppCompatActivity {
             }
         });
 
-        initRecyclerView();
+        cardModele = ViewModelProviders.of(this).get(CardViewModele.class);
+
+        final CardListRecyclerViewAdapter adapter = new CardListRecyclerViewAdapter(user_id,this);
+
+        cardsRecyclerView.setAdapter(adapter);
+        cardsRecyclerView.setLayoutManager(new LinearLayoutManager(this));
+
+        cardModele.getAllUserCards(user_id).observe(this, new Observer<List<Card>>() {
+            @Override
+            public void onChanged(List<Card> cards) {
+                adapter.setLstCards(cards);
+            }
+        });
+
     }
 
-    /**
-     * on resume refresh the content of the RecyclerView to keep it up to date
-     */
-    @Override
-    protected void onResume() {
-        super.onResume();
-
-        initRecyclerView();
-    }
 
     /**
      * This function open the cardEdit activity with only a user_id. it will create a new card.
@@ -79,11 +85,7 @@ public class CardsListActivity extends AppCompatActivity {
      */
     private void initRecyclerView(){
 
-        ArrayList<Card> listCards = database.getUserCard(user_id);
 
-        CardListRecyclerViewAdapter adapter = new CardListRecyclerViewAdapter(listCards,user_id,this);
 
-        cardsRecyclerView.setAdapter(adapter);
-        cardsRecyclerView.setLayoutManager(new LinearLayoutManager(this));
     }
 }

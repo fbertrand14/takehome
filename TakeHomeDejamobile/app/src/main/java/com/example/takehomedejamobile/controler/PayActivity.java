@@ -13,7 +13,6 @@ import android.widget.Toast;
 
 import com.example.takehomedejamobile.R;
 import com.example.takehomedejamobile.modele.Card;
-import com.example.takehomedejamobile.modele.DatabaseTakehomeHelper;
 
 import java.util.ArrayList;
 
@@ -25,7 +24,6 @@ public class PayActivity extends AppCompatActivity {
     private Integer user_id;
     private ArrayList<Card> lstCards;
 
-    DatabaseTakehomeHelper database;
 
     private Button payButton;
     private Spinner cardSpinner;
@@ -41,10 +39,6 @@ public class PayActivity extends AppCompatActivity {
         setContentView(R.layout.activity_pay);
 
         user_id = getIntent().getIntExtra("USER_ID",-1);
-
-        database = new DatabaseTakehomeHelper(this);
-
-        lstCards = database.getUserCard(user_id);
 
         payButton = (Button) findViewById(R.id.paybutton_PayActivity);
         amountEditText = (EditText) findViewById(R.id.amountTextField_PayActivity);
@@ -94,7 +88,7 @@ public class PayActivity extends AppCompatActivity {
 
         Log.d("OPERATION", "operation with card : "+selectedCard.getId()+" for : "+amount);
 
-        boolean insertuser = database.addOperation(selectedCard.getId(),amount);
+        boolean insertuser = true;
 
         // user feedback
         if (insertuser){

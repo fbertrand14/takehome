@@ -18,27 +18,25 @@ import com.example.takehomedejamobile.R;
 import com.example.takehomedejamobile.modele.Card;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * This object adapt cards to a RecyclerView to dispolay them
  */
 public class CardListRecyclerViewAdapter extends RecyclerView.Adapter<CardListRecyclerViewAdapter.CardViewHolder> {
 
-    private ArrayList<Card> lstCards;
+    private List<Card> lstCards;
     private Context context;
     private Integer user_id;
 
     /**
      * Constructor of the adater
-     * @param lstCards
-     *      ArrayList of cards to display
      * @param user_id
      *      id of the user for all this cards
      * @param context
      *      context of the activity
      */
-    public CardListRecyclerViewAdapter(ArrayList<Card> lstCards,Integer user_id,Context context) {
-        this.lstCards = lstCards;
+    public CardListRecyclerViewAdapter(Integer user_id,Context context) {
         this.context = context;
         this.user_id = user_id;
     }
@@ -77,7 +75,15 @@ public class CardListRecyclerViewAdapter extends RecyclerView.Adapter<CardListRe
      */
     @Override
     public int getItemCount() {
+        if (lstCards==null){
+            return 0;
+        }
         return lstCards.size();
+    }
+
+    public void setLstCards(List<Card> cards){
+        lstCards = cards;
+        notifyDataSetChanged();
     }
 
     /**
