@@ -4,6 +4,8 @@ import androidx.annotation.NonNull;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
+import javax.crypto.Cipher;
+
 @Entity(tableName = "users")
 public class User {
 
@@ -21,7 +23,8 @@ public class User {
         this.email = email;
         this.name = name;
         this.password = password;
-    }
+
+;    }
 
 
     @NonNull

@@ -1,6 +1,8 @@
 package com.example.takehomedejamobile.controler;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProviders;
 
 import android.os.Bundle;
 import android.util.Log;
@@ -13,8 +15,12 @@ import android.widget.Toast;
 
 import com.example.takehomedejamobile.R;
 import com.example.takehomedejamobile.modele.Card;
+import com.example.takehomedejamobile.modele.CardViewModele;
+import com.example.takehomedejamobile.modele.Operation;
+import com.example.takehomedejamobile.modele.OperationViewModele;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Controler for the activity used to pay (simulation)
@@ -22,12 +28,15 @@ import java.util.ArrayList;
 public class PayActivity extends AppCompatActivity {
 
     private Integer user_id;
-    private ArrayList<Card> lstCards;
+    private List<Card> lstCards;
 
 
     private Button payButton;
     private Spinner cardSpinner;
     private EditText amountEditText;
+
+    private OperationViewModele operationModele;
+    private CardViewModele cardModele;
 
     /**
      * On create initialise all object of the activity
@@ -39,6 +48,9 @@ public class PayActivity extends AppCompatActivity {
         setContentView(R.layout.activity_pay);
 
         user_id = getIntent().getIntExtra("USER_ID",-1);
+
+        cardModele = ViewModelProviders.of(this).get(CardViewModele.class);
+        operationModele = ViewModelProviders.of(this).get(OperationViewModele.class);
 
         payButton = (Button) findViewById(R.id.paybutton_PayActivity);
         amountEditText = (EditText) findViewById(R.id.amountTextField_PayActivity);
@@ -52,7 +64,15 @@ public class PayActivity extends AppCompatActivity {
             }
         });
 
-        initSpinner();
+
+
+        cardModele.getAllUserCards(user_id).observe(this, new Observer<List<Card>>() {
+            @Override
+            public void onChanged(List<Card> cards) {
+                lstCards = cards;
+                initSpinner();
+            }
+        });
 
     }
 
@@ -88,15 +108,9 @@ public class PayActivity extends AppCompatActivity {
 
         Log.d("OPERATION", "operation with card : "+selectedCard.getId()+" for : "+amount);
 
-        boolean insertuser = true;
+        Operation op = new Operation(null, selectedCard.getId(), amount);
 
-        // user feedback
-        if (insertuser){
-            Toast.makeText(this,"INSERT OK",Toast.LENGTH_SHORT).show();
-            finish();
-        }
-        else{
-            Toast.makeText(this,"INSERT FAIL",Toast.LENGTH_SHORT).show();
-        }
+        operationModele.insertOperation(op);
+        finish();
     }
 }

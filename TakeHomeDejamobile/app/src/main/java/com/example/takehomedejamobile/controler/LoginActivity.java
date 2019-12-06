@@ -2,6 +2,7 @@ package com.example.takehomedejamobile.controler;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.LifecycleOwner;
+import androidx.lifecycle.LiveData;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 
@@ -32,7 +33,7 @@ public class LoginActivity extends AppCompatActivity {
     private Button connectButton;
     private Button newaccountButton;
 
-    private List<User> listAllUsers;
+    private LiveData<User> user;
     /**
      * On create initialise all object of the activity
      * @param savedInstanceState
@@ -64,12 +65,15 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
 
+        /*
         userModele.getAllUsers().observe((LifecycleOwner) this, new Observer<List<User>>() {
             @Override
             public void onChanged(List<User> users) {
                 listAllUsers = users;
             }
         });
+
+         */
     }
 
     /**
@@ -85,11 +89,20 @@ public class LoginActivity extends AppCompatActivity {
      */
     private void connect(){
         String email = String.valueOf(loginTextField.getText());
-        String pass = String.valueOf(passwordTextField.getText());
+        final String pass = String.valueOf(passwordTextField.getText());
 
         // Retrive all password for a known email and put it in passlist
-        User user = listAllUsers.get(0);
+        user = userModele.getUserByEmail(email);
+        user.observe(this, new Observer<User>() {
+            @Override
+            public void onChanged(User user) {
+                 authentification(user,pass);
+            }
+        });
 
+    }
+
+    private void authentification(User user,String pass){
         // No user found for this email
         if (user==null){
             Toast.makeText(this,"Email unknown",Toast.LENGTH_SHORT).show();
@@ -107,7 +120,6 @@ public class LoginActivity extends AppCompatActivity {
             Toast.makeText(this,"Incorrect password",Toast.LENGTH_SHORT).show();
             return;
         }
-
 
     }
 

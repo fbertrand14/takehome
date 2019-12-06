@@ -1,6 +1,9 @@
 package com.example.takehomedejamobile.controler;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.LiveData;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -11,9 +14,14 @@ import android.widget.Button;
 import android.widget.Toast;
 
 import com.example.takehomedejamobile.R;
+import com.example.takehomedejamobile.modele.Card;
+import com.example.takehomedejamobile.modele.CardViewModele;
 import com.example.takehomedejamobile.modele.Operation;
+import com.example.takehomedejamobile.modele.OperationViewModele;
 
 import java.util.ArrayList;
+import java.util.List;
+
 /**
  * Controler for the main menu activity
  */
@@ -22,6 +30,9 @@ public class MainMenuActivity extends AppCompatActivity {
     private Button paybutton;
     private Button cardsButton;
     private RecyclerView operationRecyclerView;
+
+    private OperationViewModele operationModele;
+    private CardViewModele cardModele;
 
 
     private Integer user_id;
@@ -56,18 +67,35 @@ public class MainMenuActivity extends AppCompatActivity {
             }
         });
 
-        initRecyclerView();
+        operationModele = ViewModelProviders.of(this).get(OperationViewModele.class);
+        cardModele = ViewModelProviders.of(this).get(CardViewModele.class);
+
+        final OperationListRecyclerViewAdapter adapter = new OperationListRecyclerViewAdapter();
+
+        operationRecyclerView.setAdapter(adapter);
+        operationRecyclerView.setLayoutManager(new LinearLayoutManager(this));
+
+        operationModele.getAllUserOperation(user_id).observe(this, new Observer<List<Operation>>() {
+            @Override
+            public void onChanged(List<Operation> operations) {
+                //
+                retriveUserCards(operations,adapter);
+            }
+        });
+
     }
 
-    /**
-     * on resume refresh the content of the RecyclerView to keep it up to date
-     */
-    @Override
-    protected void onResume() {
-        super.onResume();
-
-        initRecyclerView();
+    public void retriveUserCards(final List<Operation> operations, final OperationListRecyclerViewAdapter adapter){
+        cardModele.getAllUserCards(user_id).observe(this, new Observer<List<Card>>() {
+            @Override
+            public void onChanged(List<Card> cards) {
+                List<Card> userCards;
+                userCards = cards;
+                adapter.setLstoperations(operations,userCards);
+            }
+        });
     }
+
 
     /**
      * this function open the CardListActivity for the connected user
@@ -98,17 +126,5 @@ public class MainMenuActivity extends AppCompatActivity {
 
     }
 
-    /**
-     * This function load all operation of a user in the RecyclerView using the OperationListRecyclerViewAdapter
-     *
-     * @see OperationListRecyclerViewAdapter
-     */
-    private void initRecyclerView(){
-
-        //OperationListRecyclerViewAdapter adapter = new OperationListRecyclerViewAdapter(loperations,this);
-
-        //operationRecyclerView.setAdapter(adapter);
-        //operationRecyclerView.setLayoutManager(new LinearLayoutManager(this));
-    }
 
 }

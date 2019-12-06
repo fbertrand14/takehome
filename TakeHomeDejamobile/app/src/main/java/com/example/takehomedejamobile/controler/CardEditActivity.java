@@ -1,6 +1,8 @@
 package com.example.takehomedejamobile.controler;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.LiveData;
+import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 
 import android.os.Bundle;
@@ -32,6 +34,8 @@ public class CardEditActivity extends AppCompatActivity {
     private EditText cardNameTextField;
     private EditText cardNumberTextField;
 
+    private LiveData<Card> card;
+
     /**
      * On create initialise all object of the activity
      *
@@ -46,6 +50,7 @@ public class CardEditActivity extends AppCompatActivity {
         user_id = getIntent().getIntExtra("USER_ID",-1);
 
         cardModele = ViewModelProviders.of(this).get(CardViewModele.class);
+
 
         saveCardButton = (Button) findViewById(R.id.saveButton_EditCardActivity);
         deleteCardButton = (Button) findViewById(R.id.deleteButton_EditCardActivity);
@@ -78,18 +83,18 @@ public class CardEditActivity extends AppCompatActivity {
         }
         else{
             edit_mode = true;
-            loadCard();
+            card = cardModele.getCardByID(card_id);
+            card.observe(this, new Observer<Card>() {
+                @Override
+                public void onChanged(Card card) {
+                    if (card!=null) {
+                        cardNameTextField.setText(card.getName());
+                        cardNumberTextField.setText(card.getNumber());
+                    }
+                }
+            });
         }
 
-    }
-
-    /**
-     * this fonction load the card name and number if we are editing a card
-     */
-    private void loadCard(){
-        Card card = new Card(1, 5, "kdfgjk", "65465");
-        cardNameTextField.setText(card.getName());
-        cardNumberTextField.setText(card.getNumber());
     }
 
     /**
@@ -111,7 +116,8 @@ public class CardEditActivity extends AppCompatActivity {
         }
 
         if (edit_mode){
-            //TODO UPDATE LINE
+            Card card = new Card(card_id, user_id, name, number);
+            cardModele.updateCard(card);
             finish();
         }
         else{
@@ -125,14 +131,8 @@ public class CardEditActivity extends AppCompatActivity {
      * This function is use to delete the card we are editing
      */
     private void deleteCard(){
-        boolean result;
-        result = true;
-
-        if (result){
-            finish();
-        }
-        else{
-            Toast.makeText(this,"Delete Error",Toast.LENGTH_SHORT).show();
-        }
+        Card card = new Card(card_id, user_id, null, null);
+        cardModele.deleteCard(card);
+        finish();
     }
 }

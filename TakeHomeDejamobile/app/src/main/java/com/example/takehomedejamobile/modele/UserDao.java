@@ -17,4 +17,7 @@ public interface UserDao {
     @Query("SELECT * FROM users")
     LiveData<List<User>> getAllUsers();
 
+    @Query("SELECT * FROM users WHERE email=:email")
+    LiveData<User> getUserByEmail(String email);
+
 }

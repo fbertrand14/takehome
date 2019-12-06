@@ -8,32 +8,38 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.lifecycle.LiveData;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.takehomedejamobile.R;
+import com.example.takehomedejamobile.modele.Card;
+import com.example.takehomedejamobile.modele.CardViewModele;
 import com.example.takehomedejamobile.modele.Operation;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * This object adapt Operations to a RecyclerView to dispolay them
  */
 public class OperationListRecyclerViewAdapter extends RecyclerView.Adapter<OperationListRecyclerViewAdapter.OperationViewHolder> {
 
-    private ArrayList<Operation> lstoperations;
-    private Context context;
+    private List<Operation> lstoperations;
+    private List<Card> lcards;
 
     /**
      * Constructor of the adater
      *
-     * @param lstoperations
-     *      List of all operation to display
-     * @param context
-     *      context of the activity
      */
-    public OperationListRecyclerViewAdapter(ArrayList<Operation> lstoperations, Context context) {
+    public OperationListRecyclerViewAdapter() {
+    }
+
+    public void setLstoperations(List<Operation> lstoperations,List<Card> lcards) {
         this.lstoperations = lstoperations;
-        this.context = context;
+        this.lcards = lcards;
+        notifyDataSetChanged();
     }
 
     /**
@@ -59,7 +65,14 @@ public class OperationListRecyclerViewAdapter extends RecyclerView.Adapter<Opera
      */
     @Override
     public void onBindViewHolder(@NonNull OperationViewHolder holder, int position) {
-        holder.cardName.setText(lstoperations.get(position).getCard_id());
+        Card card = new Card(null, null, null, null);
+        card = card.findCardWithID(lcards, lstoperations.get(position).getCard_id());
+        if (card==null){
+            holder.cardName.setText("Unknown card");
+        }
+        else{
+            holder.cardName.setText(card.getName()+"  "+card.getNumber());
+        }
         holder.operationAmount.setText(String.valueOf(lstoperations.get(position).getAmount())+" $ ");
     }
 
@@ -69,6 +82,9 @@ public class OperationListRecyclerViewAdapter extends RecyclerView.Adapter<Opera
      */
     @Override
     public int getItemCount() {
+        if (lstoperations==null){
+            return 0;
+        }
         return lstoperations.size();
     }
 

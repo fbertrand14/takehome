@@ -35,6 +35,10 @@ public class UserViewModele extends AndroidViewModel {
         return allUsers;
     }
 
+    public LiveData<User> getUserByEmail(String email){
+        return userDao.getUserByEmail(email);
+    }
+
 
     private class InsertAsyncTask extends AsyncTask<User, Void, Void> {
 
