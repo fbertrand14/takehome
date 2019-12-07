@@ -4,8 +4,16 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 
+
+import android.app.PendingIntent;
+import android.content.Intent;
+import android.content.IntentFilter;
+import android.nfc.NfcAdapter;
+import android.nfc.tech.Ndef;
+import android.nfc.tech.NdefFormatable;
 import android.os.Bundle;
 import android.util.Log;
+import android.util.SparseArray;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -22,6 +30,8 @@ import com.example.takehomedejamobile.modele.OperationViewModele;
 import java.util.ArrayList;
 import java.util.List;
 
+import be.appfoundry.nfclibrary.utilities.sync.NfcReadUtilityImpl;
+
 /**
  * Controler for the activity used to pay (simulation)
  */
@@ -30,13 +40,18 @@ public class PayActivity extends AppCompatActivity {
     private Integer user_id;
     private List<Card> lstCards;
 
-
     private Button payButton;
     private Spinner cardSpinner;
     private EditText amountEditText;
 
     private OperationViewModele operationModele;
     private CardViewModele cardModele;
+
+    private PendingIntent pendingIntent;
+    private IntentFilter[] mIntentFilters;
+    private String[][] mTechLists;
+    private NfcAdapter mNfcAdapter;
+
 
     /**
      * On create initialise all object of the activity
@@ -65,7 +80,6 @@ public class PayActivity extends AppCompatActivity {
         });
 
 
-
         cardModele.getAllUserCards(user_id).observe(this, new Observer<List<Card>>() {
             @Override
             public void onChanged(List<Card> cards) {
@@ -74,6 +88,40 @@ public class PayActivity extends AppCompatActivity {
             }
         });
 
+        // NFC androif-nfc-lib
+
+        mNfcAdapter = NfcAdapter.getDefaultAdapter(this);
+        pendingIntent = PendingIntent.getActivity(this, 0, new Intent(this, getClass()).addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP), 0);
+        mIntentFilters = new IntentFilter[]{new IntentFilter(NfcAdapter.ACTION_NDEF_DISCOVERED)};
+        mTechLists = new String[][]{new String[]{Ndef.class.getName()},
+                new String[]{NdefFormatable.class.getName()}};
+    }
+
+    @Override
+    public void onResume(){
+        super.onResume();
+        if (mNfcAdapter != null) {
+            mNfcAdapter.enableForegroundDispatch(this, pendingIntent, mIntentFilters, mTechLists);
+        }
+
+    }
+
+    @Override
+    public void onPause(){
+        super.onPause();
+        if (mNfcAdapter != null)
+        {
+            mNfcAdapter.disableForegroundDispatch(this);
+        }
+    }
+
+    @Override
+    protected void onNewIntent(Intent intent) {
+        super.onNewIntent(intent);
+        SparseArray<String> res = new NfcReadUtilityImpl().readFromTagWithSparseArray(intent);
+        for (int i =0; i < res.size() ; i++ ) {
+            Toast.makeText(this, res.valueAt(i), Toast.LENGTH_SHORT).show();
+        }
     }
 
     /**
