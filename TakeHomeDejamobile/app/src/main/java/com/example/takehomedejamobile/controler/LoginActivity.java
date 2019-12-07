@@ -8,12 +8,14 @@ import androidx.lifecycle.ViewModelProviders;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
 import com.example.takehomedejamobile.R;
+import com.example.takehomedejamobile.modele.AESCipher;
 import com.example.takehomedejamobile.modele.User;
 import com.example.takehomedejamobile.modele.UserViewModele;
 
@@ -65,15 +67,6 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
 
-        /*
-        userModele.getAllUsers().observe((LifecycleOwner) this, new Observer<List<User>>() {
-            @Override
-            public void onChanged(List<User> users) {
-                listAllUsers = users;
-            }
-        });
-
-         */
     }
 
     /**
@@ -91,7 +84,7 @@ public class LoginActivity extends AppCompatActivity {
         String email = String.valueOf(loginTextField.getText());
         final String pass = String.valueOf(passwordTextField.getText());
 
-        // Retrive all password for a known email and put it in passlist
+        // Retrive the user for a known email and try to make authentificate the user with the password
         user = userModele.getUserByEmail(email);
         user.observe(this, new Observer<User>() {
             @Override
@@ -109,8 +102,19 @@ public class LoginActivity extends AppCompatActivity {
             return;
         }
 
+        String encPass ="";
+        AESCipher cipher = new AESCipher("TakeHome");
+        try {
+            encPass = cipher.encrypt(pass);
+            Log.d("CYPHER", "encrypted password = "+encPass);
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+            Log.d("CYPHER", "Cannont encrypt password");
+        }
+
         // user feedback
-        if (pass.equals(user.getPassword())){
+        if (encPass.equals(user.getPassword())){
             //open the main menu
             user_id = user.getId();
             Toast.makeText(this,"Connecting",Toast.LENGTH_SHORT).show();

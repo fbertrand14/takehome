@@ -13,6 +13,7 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.example.takehomedejamobile.R;
+import com.example.takehomedejamobile.modele.AESCipher;
 import com.example.takehomedejamobile.modele.TakehomeDataBase;
 import com.example.takehomedejamobile.modele.User;
 import com.example.takehomedejamobile.modele.UserDao;
@@ -93,10 +94,22 @@ public class CreateUserActivity extends AppCompatActivity {
             return;
         }*/
 
-        // Insert in database
-        Log.d("DATABASE","adding"+email+"/"+pass+"/"+name);
+        // encode password
+        String encPass ="";
+        AESCipher cipher = new AESCipher("TakeHome");
+        try {
+            encPass = cipher.encrypt(pass);
+            Log.d("CYPHER", "encrypted password = "+encPass);
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+            Log.d("CYPHER", "Cannont encrypt password");
+        }
 
-        User user = new User(null, email, name, pass);
+        // Insert in database
+        Log.d("DATABASE","adding"+email+"/"+encPass+"/"+name);
+
+        User user = new User(null, email, name, encPass);
         userModele.insertUser(user);
 
         Toast.makeText(this,"INSERT OK",Toast.LENGTH_SHORT).show();
