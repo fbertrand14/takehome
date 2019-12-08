@@ -1,6 +1,8 @@
 package com.example.takehomedejamobile.controler;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.LiveData;
+import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.lifecycle.ViewModelProviders;
 
@@ -31,6 +33,8 @@ public class CreateUserActivity extends AppCompatActivity {
     private EditText emailTextField;
     private EditText passwordTextField;
     private EditText nameTextField;
+
+    private LiveData<User> userdata;
 
 
     /**
@@ -63,9 +67,9 @@ public class CreateUserActivity extends AppCompatActivity {
      */
     public void addUser(){
 
-        String email = String.valueOf(emailTextField.getText());
-        String pass = String.valueOf(passwordTextField.getText());
-        String name = String.valueOf(nameTextField.getText());
+        final String email = String.valueOf(emailTextField.getText());
+        final String pass = String.valueOf(passwordTextField.getText());
+        final String name = String.valueOf(nameTextField.getText());
 
         // email, password and name error handling
         if ( !(email.contains("@")) ){
@@ -83,19 +87,28 @@ public class CreateUserActivity extends AppCompatActivity {
             Toast.makeText(this,"name is empty",Toast.LENGTH_SHORT).show();
             return;
         }
-        //  TODO stop insert on already existing email
-        /*Cursor data = database.getUser(email);
-        ArrayList<String> passlist = new ArrayList<String>();
-        while(data.moveToNext()){
-            passlist.add(data.getString(2));
-        }
-        //email allready used
-        if (passlist.size() > 1){
-            Toast.makeText(this,"email allready used",Toast.LENGTH_SHORT).show();
-            return;
-        }*/
+
+        userdata = userModele.getUserByEmail(email);
+        userdata.observe(this, new Observer<User>() {
+            @Override
+            public void onChanged(User user) {
+                if (user == null){
+                    createUser( email, pass, name);
+                }
+                else {
+                    displayEmailExist();
+                }
+            }
+        });
 
 
+    }
+
+    private void displayEmailExist() {
+        Toast.makeText(this,"email allready used",Toast.LENGTH_SHORT).show();
+    }
+
+    private void createUser(String email,String pass,String name){
         // encode password
         AppParameters param = AppParameters.getParameters();
         String encPass ="";
@@ -122,7 +135,6 @@ public class CreateUserActivity extends AppCompatActivity {
 
         Toast.makeText(this,"INSERT OK",Toast.LENGTH_SHORT).show();
         finish();
-
     }
 
 

@@ -180,8 +180,6 @@ public class PayActivity extends AppCompatActivity {
 
         Log.d("OPERATION", "operation with card : "+selectedCard.getId()+" for : "+amount);
 
-        //TODO insert tag ID
-
         Operation op = new Operation(null, selectedCard.getId(), amount,currentYear,currentMonth,currentDay,currentHour,currentMinute,tagID_used);
 
         operationModele.insertOperation(op);
