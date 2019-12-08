@@ -6,7 +6,7 @@ import androidx.room.Database;
 import androidx.room.Room;
 import androidx.room.RoomDatabase;
 
-@Database(entities = {Card.class,Operation.class,User.class},version = 1)
+@Database(entities = {Card.class,Operation.class,User.class},version = 2)
 public abstract class TakehomeDataBase extends RoomDatabase {
 
     public abstract CardDao CardDao();

@@ -101,7 +101,8 @@ public class CardEditActivity extends AppCompatActivity {
                     if (card!=null) {
                         cardNameTextField.setText(card.getName());
                         cardNumberTextField.setText(card.getNumber());
-                        //TODO load month and year
+                        expMonthTextField.setText(String.valueOf(card.getExpMonth()));
+                        expYearTextField.setText(String.valueOf(card.getExpYear()));
                     }
                 }
             });
