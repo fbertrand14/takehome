@@ -18,6 +18,7 @@ import com.example.takehomedejamobile.modele.Card;
 import com.example.takehomedejamobile.modele.CardViewModele;
 import com.example.takehomedejamobile.modele.Operation;
 import com.example.takehomedejamobile.modele.OperationViewModele;
+import com.example.takehomedejamobile.modele.User;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -34,6 +35,7 @@ public class MainMenuActivity extends AppCompatActivity {
     private OperationViewModele operationModele;
     private CardViewModele cardModele;
 
+    private LiveData<List<Card>> cardData;
 
     private Integer user_id;
 
@@ -115,16 +117,29 @@ public class MainMenuActivity extends AppCompatActivity {
      */
     private void openPay(){
 
-        // TODO look if user have cards
-        if (true){
-            Intent intent = new Intent(this,PayActivity.class);
-            intent.putExtra("USER_ID", user_id);
-            startActivity(intent);
-        }
-        else{
-            Toast.makeText(this,"You must have at least one card to pay",Toast.LENGTH_SHORT).show();
-        }
+        cardData = cardModele.getAllUserCards(user_id);
+        cardData.observe(this, new Observer<List<Card>>() {
+            @Override
+            public void onChanged(List<Card> cards) {
+                if (!cards.isEmpty()){
+                    loadPay();
+                }
+                else {
+                    displayNeedCard();
+                }
+                cardData.removeObserver(this);
+            }
+        });
+    }
 
+    private void displayNeedCard() {
+        Toast.makeText(this,"You must have at least one card to pay",Toast.LENGTH_SHORT).show();
+    }
+
+    private void loadPay() {
+        Intent intent = new Intent(this,PayActivity.class);
+        intent.putExtra("USER_ID", user_id);
+        startActivity(intent);
     }
 
 

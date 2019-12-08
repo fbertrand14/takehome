@@ -83,6 +83,7 @@ public class PayActivity extends AppCompatActivity {
             public void onChanged(List<Card> cards) {
                 lstCards = cards;
                 initSpinner();
+
             }
         });
 

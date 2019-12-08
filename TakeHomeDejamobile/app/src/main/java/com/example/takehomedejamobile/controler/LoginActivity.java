@@ -85,7 +85,7 @@ public class LoginActivity extends AppCompatActivity {
         String email = String.valueOf(loginTextField.getText());
         final String pass = String.valueOf(passwordTextField.getText());
 
-        // Retrive the user for a known email and try to make authentificate the user with the password
+        // Retrive the user for a known email and try to authentificate the user with the password
         userdata = userModele.getUserByEmail(email);
         userdata.observe(this, new Observer<User>() {
             @Override
