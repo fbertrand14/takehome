@@ -65,7 +65,7 @@ public class OperationListRecyclerViewAdapter extends RecyclerView.Adapter<Opera
      */
     @Override
     public void onBindViewHolder(@NonNull OperationViewHolder holder, int position) {
-        Card card = new Card(null, null, null, null);
+        Card card = new Card(null, null, null, null,null,null);
         card = card.findCardWithID(lcards, lstoperations.get(position).getCard_id());
         if (card==null){
             holder.cardName.setText("Unknown card");

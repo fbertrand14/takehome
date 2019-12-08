@@ -24,6 +24,10 @@ public class Card {
     // card number
     @NonNull
     private String number;
+    @NonNull
+    private Integer expMonth;
+    @NonNull
+    private Integer expYear;
 
     /**
      * Constructor
@@ -36,11 +40,13 @@ public class Card {
      * @param user_id
      *      The ID of the user of this card
      */
-    public Card(@NonNull Integer id, @NonNull Integer user_id, @NonNull String name, @NonNull String number) {
+    public Card(@NonNull Integer id, @NonNull Integer user_id, @NonNull String name, @NonNull String number,@NonNull Integer expMonth,@NonNull Integer expYear) {
         this.id = id;
         this.user_id = user_id;
         this.name = name;
         this.number = number;
+        this.expMonth = expMonth;
+        this.expYear = expYear;
     }
 
     public Card findCardWithID(List<Card> cards, Integer id){
@@ -76,5 +82,15 @@ public class Card {
     @NonNull
     public Integer getUser_id() {
         return user_id;
+    }
+
+    @NonNull
+    public Integer getExpMonth() {
+        return expMonth;
+    }
+
+    @NonNull
+    public Integer getExpYear() {
+        return expYear;
     }
 }

@@ -32,6 +32,4 @@ dependencies {
     annotationProcessor  "android.arch.persistence.room:compiler:1.1.1"
 
     implementation 'androidx.lifecycle:lifecycle-extensions:2.1.0'
-
-    implementation 'be.appfoundry:nfc-lib:1.1'
 }

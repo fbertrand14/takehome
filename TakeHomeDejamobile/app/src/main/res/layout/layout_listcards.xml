@@ -45,4 +45,14 @@
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@android:drawable/ic_menu_edit" />
 
+    <TextView
+        android:id="@+id/expDateTextView_ListCards"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        android:layout_marginLeft="10dp"
+        android:text="TextView"
+        app:layout_constraintBottom_toBottomOf="@+id/cardNumberTextView_ListCards"
+        app:layout_constraintStart_toEndOf="@+id/cardNumberTextView_ListCards" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

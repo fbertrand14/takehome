@@ -12,9 +12,9 @@
     <string name="Cards">Cards</string>
     <string name="addcard">Add card</string>
     <string name="cardnumber">Card Number</string>
-    <string name="expirationdate">expiration date</string>
     <string name="save">Save</string>
     <string name="SelectCard">Select a card :</string>
     <string name="Amount">Amount : </string>
     <string name="delete">Delete</string>
+    <string name="expdate">Exp date : </string>
 </resources>

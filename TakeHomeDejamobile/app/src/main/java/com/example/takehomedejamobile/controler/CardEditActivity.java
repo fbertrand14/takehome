@@ -7,8 +7,10 @@ import androidx.lifecycle.ViewModelProviders;
 
 import android.os.Bundle;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.example.takehomedejamobile.R;
@@ -16,6 +18,10 @@ import com.example.takehomedejamobile.modele.Card;
 import com.example.takehomedejamobile.modele.CardViewModele;
 import com.example.takehomedejamobile.modele.TakehomeDataBase;
 import com.example.takehomedejamobile.modele.UserViewModele;
+
+import java.text.DateFormatSymbols;
+import java.util.ArrayList;
+import java.util.Calendar;
 
 /**
  * Controler for the activity used to create, edit and delete cards
@@ -34,6 +40,9 @@ public class CardEditActivity extends AppCompatActivity {
     private EditText cardNameTextField;
     private EditText cardNumberTextField;
 
+    private Spinner monthSpinner;
+    private Spinner yearSpinner;
+
     private LiveData<Card> card;
 
     /**
@@ -51,11 +60,14 @@ public class CardEditActivity extends AppCompatActivity {
 
         cardModele = ViewModelProviders.of(this).get(CardViewModele.class);
 
-
         saveCardButton = (Button) findViewById(R.id.saveButton_EditCardActivity);
         deleteCardButton = (Button) findViewById(R.id.deleteButton_EditCardActivity);
         cardNameTextField = (EditText) findViewById(R.id.cardNameTextField_EditCardActivity);
         cardNumberTextField = (EditText) findViewById(R.id.cardNumberTextField_EditCardActivity);
+        monthSpinner = (Spinner) findViewById(R.id.monthspinner_EditCardActivity);
+        yearSpinner = (Spinner) findViewById(R.id.yearspinner_EditCardActivity);
+
+        initSpinner();
 
         saveCardButton.setOnClickListener(new View.OnClickListener(){
 
@@ -90,12 +102,37 @@ public class CardEditActivity extends AppCompatActivity {
                     if (card!=null) {
                         cardNameTextField.setText(card.getName());
                         cardNumberTextField.setText(card.getNumber());
+                        monthSpinner.setSelection(card.getExpMonth());
                     }
                 }
             });
         }
 
+
     }
+
+    private  void initSpinner(){
+        DateFormatSymbols symbols = new DateFormatSymbols();
+        String[] monthNames = symbols.getMonths();
+
+        ArrayAdapter<String> monthAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item,monthNames);
+        monthAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        monthSpinner.setAdapter(monthAdapter);
+
+        ArrayList<String> years = new ArrayList<>();
+
+        Calendar instance = Calendar.getInstance();
+        Integer currentYear = instance.get(Calendar.YEAR);
+        for (int i=0;i<10;i++){
+            years.add(String.valueOf(currentYear+i));
+        }
+
+        ArrayAdapter<String> yearAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item,years);
+        yearAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        yearSpinner.setAdapter(yearAdapter);
+
+    }
+
 
     /**
      * This fonction save all modification to a card or create it if it's not a edition
@@ -104,6 +141,9 @@ public class CardEditActivity extends AppCompatActivity {
 
         String name = String.valueOf(cardNameTextField.getText());
         String number = String.valueOf(cardNumberTextField.getText());
+
+        Integer month = monthSpinner.getSelectedItemPosition()+1;
+        Integer year = Integer.valueOf(yearSpinner.getSelectedItem().toString());
 
         if (name.isEmpty()){
             Toast.makeText(this,"Please enter a name for this card",Toast.LENGTH_SHORT).show();
@@ -116,12 +156,12 @@ public class CardEditActivity extends AppCompatActivity {
         }
 
         if (edit_mode){
-            Card card = new Card(card_id, user_id, name, number);
+            Card card = new Card(card_id, user_id, name, number,month,year);
             cardModele.updateCard(card);
             finish();
         }
         else{
-            Card card = new Card(null, user_id, name, number);
+            Card card = new Card(null, user_id, name, number,month,year);
             cardModele.insertCard(card);
             finish();
         }
@@ -131,7 +171,7 @@ public class CardEditActivity extends AppCompatActivity {
      * This function is use to delete the card we are editing
      */
     private void deleteCard(){
-        Card card = new Card(card_id, user_id, null, null);
+        Card card = new Card(card_id, user_id, null, null,null,null);
         cardModele.deleteCard(card);
         finish();
     }

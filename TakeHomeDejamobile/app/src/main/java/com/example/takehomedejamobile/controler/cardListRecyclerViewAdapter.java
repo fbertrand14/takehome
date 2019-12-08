@@ -66,6 +66,8 @@ public class CardListRecyclerViewAdapter extends RecyclerView.Adapter<CardListRe
     public void onBindViewHolder(@NonNull CardViewHolder holder, int position) {
         holder.cardName.setText(lstCards.get(position).getName());
         holder.cardNumber.setText(lstCards.get(position).getNumber());
+        String expdate = "exp : "+ lstCards.get(position).getExpMonth()+" / "+ lstCards.get(position).getExpYear();
+        holder.expDate.setText(expdate);
         holder.card_id = lstCards.get(position).getId();
     }
 
@@ -95,6 +97,7 @@ public class CardListRecyclerViewAdapter extends RecyclerView.Adapter<CardListRe
 
         TextView cardName;
         TextView cardNumber;
+        TextView expDate;
         ImageButton editButton;
         ConstraintLayout parentLayout;
 
@@ -107,6 +110,8 @@ public class CardListRecyclerViewAdapter extends RecyclerView.Adapter<CardListRe
 
             cardName = itemView.findViewById(R.id.cardNameTextView_ListCards);
             cardNumber = itemView.findViewById(R.id.cardNumberTextView_ListCards);
+            expDate = itemView.findViewById(R.id.expDateTextView_ListCards);
+
             editButton = itemView.findViewById(R.id.editImageButton_ListCards);
             parentLayout = itemView.findViewById(R.id.listCardsConstraintLayout);
 
