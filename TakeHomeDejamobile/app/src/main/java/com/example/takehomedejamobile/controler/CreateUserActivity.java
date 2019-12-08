@@ -14,6 +14,7 @@ import android.widget.Toast;
 
 import com.example.takehomedejamobile.R;
 import com.example.takehomedejamobile.modele.AESCipher;
+import com.example.takehomedejamobile.modele.AppParameters;
 import com.example.takehomedejamobile.modele.TakehomeDataBase;
 import com.example.takehomedejamobile.modele.User;
 import com.example.takehomedejamobile.modele.UserDao;
@@ -94,17 +95,24 @@ public class CreateUserActivity extends AppCompatActivity {
             return;
         }*/
 
+
         // encode password
+        AppParameters param = AppParameters.getParameters();
         String encPass ="";
-        AESCipher cipher = new AESCipher("TakeHome");
-        try {
-            encPass = cipher.encrypt(pass);
-            Log.d("CYPHER", "encrypted password = "+encPass);
+        if (param.getAesEncyption()){
+            AESCipher cipher = new AESCipher("TakeHome");
+            try {
+                encPass = cipher.encrypt(pass);
+            }
+            catch (Exception e) {
+                e.printStackTrace();
+                Log.d("CYPHER", "Cannont encrypt password");
+            }
         }
-        catch (Exception e) {
-            e.printStackTrace();
-            Log.d("CYPHER", "Cannont encrypt password");
+        else {
+            encPass = String.valueOf(pass.hashCode());
         }
+
 
         // Insert in database
         Log.d("DATABASE","adding"+email+"/"+encPass+"/"+name);

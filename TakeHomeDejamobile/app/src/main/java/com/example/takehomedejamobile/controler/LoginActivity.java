@@ -16,6 +16,7 @@ import android.widget.Toast;
 
 import com.example.takehomedejamobile.R;
 import com.example.takehomedejamobile.modele.AESCipher;
+import com.example.takehomedejamobile.modele.AppParameters;
 import com.example.takehomedejamobile.modele.User;
 import com.example.takehomedejamobile.modele.UserViewModele;
 
@@ -35,7 +36,7 @@ public class LoginActivity extends AppCompatActivity {
     private Button connectButton;
     private Button newaccountButton;
 
-    private LiveData<User> user;
+    private LiveData<User> userdata;
     /**
      * On create initialise all object of the activity
      * @param savedInstanceState
@@ -85,32 +86,39 @@ public class LoginActivity extends AppCompatActivity {
         final String pass = String.valueOf(passwordTextField.getText());
 
         // Retrive the user for a known email and try to make authentificate the user with the password
-        user = userModele.getUserByEmail(email);
-        user.observe(this, new Observer<User>() {
+        userdata = userModele.getUserByEmail(email);
+        userdata.observe(this, new Observer<User>() {
             @Override
             public void onChanged(User user) {
                  authentification(user,pass);
+                 userdata.removeObserver(this);
             }
         });
 
     }
 
     private void authentification(User user,String pass){
+
         // No user found for this email
         if (user==null){
             Toast.makeText(this,"Email unknown",Toast.LENGTH_SHORT).show();
             return;
         }
 
+        AppParameters param = AppParameters.getParameters();
         String encPass ="";
-        AESCipher cipher = new AESCipher("TakeHome");
-        try {
-            encPass = cipher.encrypt(pass);
-            Log.d("CYPHER", "encrypted password = "+encPass);
+        if (param.getAesEncyption()){
+            AESCipher cipher = new AESCipher("TakeHome");
+            try {
+                encPass = cipher.encrypt(pass);
+            }
+            catch (Exception e) {
+                e.printStackTrace();
+                Log.d("CYPHER", "Cannont encrypt password");
+            }
         }
-        catch (Exception e) {
-            e.printStackTrace();
-            Log.d("CYPHER", "Cannont encrypt password");
+        else {
+            encPass = String.valueOf(pass.hashCode());
         }
 
         // user feedback
