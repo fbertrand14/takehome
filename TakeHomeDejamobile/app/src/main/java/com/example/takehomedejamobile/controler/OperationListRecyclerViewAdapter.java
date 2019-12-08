@@ -1,25 +1,18 @@
 package com.example.takehomedejamobile.controler;
 
-import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.view.menu.MenuView;
 import androidx.constraintlayout.widget.ConstraintLayout;
-import androidx.lifecycle.LiveData;
-import androidx.lifecycle.Observer;
-import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.takehomedejamobile.R;
 import com.example.takehomedejamobile.modele.Card;
-import com.example.takehomedejamobile.modele.CardViewModele;
 import com.example.takehomedejamobile.modele.Operation;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -37,6 +30,13 @@ public class OperationListRecyclerViewAdapter extends RecyclerView.Adapter<Opera
     public OperationListRecyclerViewAdapter() {
     }
 
+    /**
+     * This fonction is used to update the data in the recyclerView
+     * @param lstoperations
+     *      List of all operations to display
+     * @param lcards
+     *      List of all cards used in those operations
+     */
     public void setLstoperations(List<Operation> lstoperations,List<Card> lcards) {
         this.lstoperations = lstoperations;
         this.lcards = lcards;

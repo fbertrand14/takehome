@@ -18,9 +18,7 @@ import com.example.takehomedejamobile.modele.Card;
 import com.example.takehomedejamobile.modele.CardViewModele;
 import com.example.takehomedejamobile.modele.Operation;
 import com.example.takehomedejamobile.modele.OperationViewModele;
-import com.example.takehomedejamobile.modele.User;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -87,6 +85,13 @@ public class MainMenuActivity extends AppCompatActivity {
 
     }
 
+    /**
+     * This fonction is used to prepare the recyclerview and feed it all the data it need
+     * @param operations
+     *      List of operations for this user
+     * @param adapter
+     *      adapter for the recyclerView to feed
+     */
     public void retriveUserCards(final List<Operation> operations, final OperationListRecyclerViewAdapter adapter){
         cardModele.getAllUserCards(user_id).observe(this, new Observer<List<Card>>() {
             @Override
@@ -111,7 +116,7 @@ public class MainMenuActivity extends AppCompatActivity {
     }
 
     /**
-     * this function open the PayActivity for the connected user
+     * this function is used to open the PayActivity for the connected user
      * @see PayActivity
      *
      */
@@ -132,10 +137,16 @@ public class MainMenuActivity extends AppCompatActivity {
         });
     }
 
+    /**
+     * This function is used to display a Toas if the user try to open the pay activity without having any card
+     */
     private void displayNeedCard() {
         Toast.makeText(this,"You must have at least one card to pay",Toast.LENGTH_SHORT).show();
     }
 
+    /**
+     * this function open the PayActivity for the connected user after we kwon he have at least one card
+     */
     private void loadPay() {
         Intent intent = new Intent(this,PayActivity.class);
         intent.putExtra("USER_ID", user_id);

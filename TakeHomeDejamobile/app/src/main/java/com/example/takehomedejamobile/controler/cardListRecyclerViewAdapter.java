@@ -6,7 +6,6 @@ import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
@@ -17,7 +16,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.takehomedejamobile.R;
 import com.example.takehomedejamobile.modele.Card;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -83,6 +81,11 @@ public class CardListRecyclerViewAdapter extends RecyclerView.Adapter<CardListRe
         return lstCards.size();
     }
 
+    /**
+     * This fonction is used to update the data in the recyclerView
+     * @param cards
+     *      List of cards to display
+     */
     public void setLstCards(List<Card> cards){
         lstCards = cards;
         notifyDataSetChanged();

@@ -6,7 +6,10 @@ import androidx.room.Database;
 import androidx.room.Room;
 import androidx.room.RoomDatabase;
 
-@Database(entities = {Card.class,Operation.class,User.class},version = 2)
+/**
+ * This Singleton represente the room databse for this app
+ */
+@Database(entities = {Card.class,Operation.class,User.class},version = 1)
 public abstract class TakehomeDataBase extends RoomDatabase {
 
     public abstract CardDao CardDao();

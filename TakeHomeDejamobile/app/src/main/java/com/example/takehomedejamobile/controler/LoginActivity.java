@@ -1,7 +1,6 @@
 package com.example.takehomedejamobile.controler;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.lifecycle.LifecycleOwner;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
@@ -97,6 +96,13 @@ public class LoginActivity extends AppCompatActivity {
 
     }
 
+    /**
+     * This fonction is used to match user input (password) with data from the database to authenticate a user
+     * @param user
+     *      The user with the same Email in the dataBase
+     * @param pass
+     *      Password input by the user (not encrypted)
+     */
     private void authentification(User user,String pass){
 
         // No user found for this email

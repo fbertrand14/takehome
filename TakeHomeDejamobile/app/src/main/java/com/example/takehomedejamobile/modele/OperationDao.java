@@ -7,6 +7,9 @@ import androidx.room.Query;
 
 import java.util.List;
 
+/**
+ * This interface is used by room to make it's query
+ */
 @Dao
 public interface OperationDao {
 

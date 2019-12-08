@@ -7,21 +7,13 @@ import androidx.lifecycle.ViewModelProviders;
 
 import android.os.Bundle;
 import android.view.View;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.example.takehomedejamobile.R;
 import com.example.takehomedejamobile.modele.Card;
 import com.example.takehomedejamobile.modele.CardViewModele;
-import com.example.takehomedejamobile.modele.TakehomeDataBase;
-import com.example.takehomedejamobile.modele.UserViewModele;
-
-import java.text.DateFormatSymbols;
-import java.util.ArrayList;
-import java.util.Calendar;
 
 /**
  * Controler for the activity used to create, edit and delete cards

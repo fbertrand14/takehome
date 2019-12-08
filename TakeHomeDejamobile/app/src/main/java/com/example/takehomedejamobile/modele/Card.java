@@ -79,16 +79,28 @@ public class Card {
     @NonNull
     public  Integer getId(){ return id;}
 
+    /**
+     * Getter for the card user_id
+     * @return the user id
+     */
     @NonNull
     public Integer getUser_id() {
         return user_id;
     }
 
+    /**
+     * Getter for the card expiration month
+     * @return the expiration month
+     */
     @NonNull
     public Integer getExpMonth() {
         return expMonth;
     }
 
+    /**
+     * Getter for the card expiration year
+     * @return
+     */
     @NonNull
     public Integer getExpYear() {
         return expYear;

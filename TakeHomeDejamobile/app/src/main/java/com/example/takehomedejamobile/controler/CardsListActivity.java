@@ -15,7 +15,6 @@ import com.example.takehomedejamobile.R;
 import com.example.takehomedejamobile.modele.Card;
 import com.example.takehomedejamobile.modele.CardViewModele;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -78,14 +77,4 @@ public class CardsListActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
-    /**
-     * This function load all card of a user in the RecyclerView using the CardListRecyclerViewAdapter
-     *
-     * @see CardListRecyclerViewAdapter
-     */
-    private void initRecyclerView(){
-
-
-
-    }
 }

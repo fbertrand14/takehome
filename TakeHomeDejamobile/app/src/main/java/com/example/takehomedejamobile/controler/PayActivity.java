@@ -8,13 +8,9 @@ import androidx.lifecycle.ViewModelProviders;
 import android.app.PendingIntent;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.nfc.NdefMessage;
-import android.nfc.NdefRecord;
 import android.nfc.NfcAdapter;
 import android.nfc.Tag;
-import android.nfc.tech.Ndef;
 import android.os.Bundle;
-import android.os.Parcelable;
 import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
@@ -98,6 +94,11 @@ public class PayActivity extends AppCompatActivity {
 
     }
 
+    /**
+     * This fonction is used to react to NFC tags
+     *
+     * @param intent
+     */
     @Override
     protected void onNewIntent(Intent intent){
 
@@ -120,6 +121,9 @@ public class PayActivity extends AppCompatActivity {
     }
 
 
+    /**
+     * This fonction enable NFC reading on resume
+     */
     @Override
     protected void onResume() {
 
@@ -134,6 +138,9 @@ public class PayActivity extends AppCompatActivity {
         super.onResume();
     }
 
+    /**
+     * This fonction desable NFC reading on pause
+     */
     @Override
     protected void onPause() {
         mNFCAdapter.disableForegroundDispatch(this);

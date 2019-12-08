@@ -3,10 +3,8 @@ package com.example.takehomedejamobile.controler;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.Observer;
-import androidx.lifecycle.ViewModelProvider;
 import androidx.lifecycle.ViewModelProviders;
 
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -17,9 +15,7 @@ import android.widget.Toast;
 import com.example.takehomedejamobile.R;
 import com.example.takehomedejamobile.modele.AESCipher;
 import com.example.takehomedejamobile.modele.AppParameters;
-import com.example.takehomedejamobile.modele.TakehomeDataBase;
 import com.example.takehomedejamobile.modele.User;
-import com.example.takehomedejamobile.modele.UserDao;
 import com.example.takehomedejamobile.modele.UserViewModele;
 
 /**
@@ -104,10 +100,22 @@ public class CreateUserActivity extends AppCompatActivity {
 
     }
 
+    /**
+     * this function is used to display a Toast if the email used is already present in the database
+     */
     private void displayEmailExist() {
         Toast.makeText(this,"email allready used",Toast.LENGTH_SHORT).show();
     }
 
+    /**
+     * This function is used to encypte the password and insert a user in the database
+     * @param email
+     *      email of the new user
+     * @param pass
+     *      userpassword not encrypted
+     * @param name
+     *      name of the user
+     */
     private void createUser(String email,String pass,String name){
         // encode password
         AppParameters param = AppParameters.getParameters();
