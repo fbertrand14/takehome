@@ -115,6 +115,7 @@ public class MainMenuActivity extends AppCompatActivity {
      */
     private void openPay(){
 
+        // TODO look if user have cards
         if (true){
             Intent intent = new Intent(this,PayActivity.class);
             intent.putExtra("USER_ID", user_id);

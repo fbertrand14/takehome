@@ -8,8 +8,13 @@ import androidx.lifecycle.ViewModelProviders;
 import android.app.PendingIntent;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.nfc.NdefMessage;
+import android.nfc.NdefRecord;
 import android.nfc.NfcAdapter;
+import android.nfc.Tag;
+import android.nfc.tech.Ndef;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
@@ -68,7 +73,7 @@ public class PayActivity extends AppCompatActivity {
 
             @Override
             public void onClick(View v) {
-                pay();
+                pay(null);
             }
         });
 
@@ -95,11 +100,24 @@ public class PayActivity extends AppCompatActivity {
     @Override
     protected void onNewIntent(Intent intent){
 
-        Toast.makeText(this, "NFC tag detected", Toast.LENGTH_SHORT).show();
-
         super.onNewIntent(intent);
 
+        if(intent.hasExtra(NfcAdapter.EXTRA_TAG)){
+            Toast.makeText(this, "NFC tag detected", Toast.LENGTH_SHORT).show();
+            Tag tag = intent.getParcelableExtra(NfcAdapter.EXTRA_TAG);
+
+            if(tag != null){
+                String tagID_used = String.valueOf(tag.getId());
+                Toast.makeText(this, tagID_used, Toast.LENGTH_SHORT).show();
+                pay(tagID_used);
+            }
+            else{
+                Toast.makeText(this, "No tag retrived ", Toast.LENGTH_SHORT).show();
+            }
+        }
+
     }
+
 
     @Override
     protected void onResume() {
@@ -138,7 +156,7 @@ public class PayActivity extends AppCompatActivity {
     /**
      * this function check if all informations given are correct. If they are create the operation.
      */
-    private void pay(){
+    private void pay(String tagID_used){
 
         Card selectedCard = lstCards.get(cardSpinner.getSelectedItemPosition());
 
@@ -148,7 +166,7 @@ public class PayActivity extends AppCompatActivity {
         Integer currentDay = instance.get(Calendar.DAY_OF_MONTH);
         Integer currentMonth = instance.get(Calendar.MONTH)+1;
         Integer currentYear = instance.get(Calendar.YEAR);
-        Integer currentHour = instance.get(Calendar.HOUR);
+        Integer currentHour = instance.get(Calendar.HOUR_OF_DAY);
         Integer currentMinute = instance.get(Calendar.MINUTE);
 
 
@@ -162,7 +180,9 @@ public class PayActivity extends AppCompatActivity {
 
         Log.d("OPERATION", "operation with card : "+selectedCard.getId()+" for : "+amount);
 
-        Operation op = new Operation(null, selectedCard.getId(), amount,currentYear,currentMonth,currentDay,currentHour,currentMinute);
+        //TODO insert tag ID
+
+        Operation op = new Operation(null, selectedCard.getId(), amount,currentYear,currentMonth,currentDay,currentHour,currentMinute,tagID_used);
 
         operationModele.insertOperation(op);
         finish();

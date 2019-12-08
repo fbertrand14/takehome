@@ -30,6 +30,7 @@ public class Operation {
     private Integer hour;
     @NonNull
     private Integer minute;
+    private String tagID_used;
 
     /**
      * Constructor
@@ -40,7 +41,7 @@ public class Operation {
      * @param amount
      *      The amount of this operation
      */
-    public Operation(@NonNull Integer id, @NonNull Integer card_id, @NonNull Float amount, @NonNull Integer year, @NonNull Integer month, @NonNull Integer day, @NonNull Integer hour, @NonNull Integer minute) {
+    public Operation(@NonNull Integer id, @NonNull Integer card_id, @NonNull Float amount, @NonNull Integer year, @NonNull Integer month, @NonNull Integer day, @NonNull Integer hour, @NonNull Integer minute,String tagID_used) {
         this.id = id;
         this.card_id = card_id;
         this.amount = amount;
@@ -49,6 +50,7 @@ public class Operation {
         this.day = day;
         this.hour = hour;
         this.minute = minute;
+        this.tagID_used = tagID_used;
     }
 
     /**
@@ -97,6 +99,10 @@ public class Operation {
     @NonNull
     public Integer getMinute() {
         return minute;
+    }
+
+    public String getTagID_used() {
+        return tagID_used;
     }
 
     public String getOperationDate(){

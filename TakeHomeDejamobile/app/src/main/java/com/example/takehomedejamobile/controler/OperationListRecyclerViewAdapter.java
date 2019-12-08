@@ -78,6 +78,12 @@ public class OperationListRecyclerViewAdapter extends RecyclerView.Adapter<Opera
         holder.operationAmount.setText(String.valueOf(operation.getAmount())+" $ ");
         String operationDate = operation.getOperationDate();
         holder.operationDate.setText(operationDate);
+        String tagID = operation.getTagID_used();
+        if (tagID==null){
+            holder.tagID_used.setText("tag : Unknown");
+        }else{
+            holder.tagID_used.setText("tag : "+operation.getTagID_used());
+        }
     }
 
     /**
@@ -100,6 +106,7 @@ public class OperationListRecyclerViewAdapter extends RecyclerView.Adapter<Opera
         TextView cardName;
         TextView operationAmount;
         TextView operationDate;
+        TextView tagID_used;
         ConstraintLayout parentLayout;
 
         public OperationViewHolder(@NonNull View itemView) {
@@ -108,6 +115,7 @@ public class OperationListRecyclerViewAdapter extends RecyclerView.Adapter<Opera
             cardName = itemView.findViewById(R.id.cardNameTextView_listOperations);
             operationAmount = itemView.findViewById(R.id.operationAmountTextView_listOperations);
             operationDate = itemView.findViewById(R.id.opDateTextView_listOperations);
+            tagID_used = itemView.findViewById(R.id.tagIDUsedTextView_listOperations);
             parentLayout = itemView.findViewById(R.id.constraintLayout_listOperations);
 
         }
