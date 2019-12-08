@@ -7,6 +7,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.view.menu.MenuView;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.Observer;
@@ -65,15 +66,18 @@ public class OperationListRecyclerViewAdapter extends RecyclerView.Adapter<Opera
      */
     @Override
     public void onBindViewHolder(@NonNull OperationViewHolder holder, int position) {
+        Operation operation = lstoperations.get(position);
         Card card = new Card(null, null, null, null,null,null);
-        card = card.findCardWithID(lcards, lstoperations.get(position).getCard_id());
+        card = card.findCardWithID(lcards, operation.getCard_id());
         if (card==null){
             holder.cardName.setText("Unknown card");
         }
         else{
-            holder.cardName.setText(card.getName()+"  "+card.getNumber());
+            holder.cardName.setText(card.getName());
         }
-        holder.operationAmount.setText(String.valueOf(lstoperations.get(position).getAmount())+" $ ");
+        holder.operationAmount.setText(String.valueOf(operation.getAmount())+" $ ");
+        String operationDate = operation.getOperationDate();
+        holder.operationDate.setText(operationDate);
     }
 
     /**
@@ -95,6 +99,7 @@ public class OperationListRecyclerViewAdapter extends RecyclerView.Adapter<Opera
 
         TextView cardName;
         TextView operationAmount;
+        TextView operationDate;
         ConstraintLayout parentLayout;
 
         public OperationViewHolder(@NonNull View itemView) {
@@ -102,6 +107,7 @@ public class OperationListRecyclerViewAdapter extends RecyclerView.Adapter<Opera
 
             cardName = itemView.findViewById(R.id.cardNameTextView_listOperations);
             operationAmount = itemView.findViewById(R.id.operationAmountTextView_listOperations);
+            operationDate = itemView.findViewById(R.id.opDateTextView_listOperations);
             parentLayout = itemView.findViewById(R.id.constraintLayout_listOperations);
 
         }

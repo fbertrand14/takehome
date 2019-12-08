@@ -20,6 +20,16 @@ public class Operation {
     // amount of the operation
     @NonNull
     private Float amount;
+    @NonNull
+    private Integer year;
+    @NonNull
+    private Integer month;
+    @NonNull
+    private Integer day;
+    @NonNull
+    private Integer hour;
+    @NonNull
+    private Integer minute;
 
     /**
      * Constructor
@@ -30,10 +40,15 @@ public class Operation {
      * @param amount
      *      The amount of this operation
      */
-    public Operation(@NonNull Integer id, @NonNull Integer card_id, @NonNull Float amount) {
+    public Operation(@NonNull Integer id, @NonNull Integer card_id, @NonNull Float amount, @NonNull Integer year, @NonNull Integer month, @NonNull Integer day, @NonNull Integer hour, @NonNull Integer minute) {
         this.id = id;
         this.card_id = card_id;
         this.amount = amount;
+        this.year = year;
+        this.month = month;
+        this.day = day;
+        this.hour = hour;
+        this.minute = minute;
     }
 
     /**
@@ -57,5 +72,35 @@ public class Operation {
     @NonNull
     public Integer getCard_id() {
         return card_id;
+    }
+
+    @NonNull
+    public Integer getYear() {
+        return year;
+    }
+
+    @NonNull
+    public Integer getMonth() {
+        return month;
+    }
+
+    @NonNull
+    public Integer getDay() {
+        return day;
+    }
+
+    @NonNull
+    public Integer getHour() {
+        return hour;
+    }
+
+    @NonNull
+    public Integer getMinute() {
+        return minute;
+    }
+
+    public String getOperationDate(){
+        String operationDate = String.valueOf(getDay())+"/"+String.valueOf(getMonth()) +"/"+String.valueOf(getYear())+"  "+getHour()+":"+getMinute();
+        return operationDate;
     }
 }

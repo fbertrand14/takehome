@@ -25,6 +25,7 @@ import com.example.takehomedejamobile.modele.Operation;
 import com.example.takehomedejamobile.modele.OperationViewModele;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 
@@ -143,6 +144,15 @@ public class PayActivity extends AppCompatActivity {
 
         String sAmount = String.valueOf(amountEditText.getText());
 
+        Calendar instance = Calendar.getInstance();
+        Integer currentDay = instance.get(Calendar.DAY_OF_MONTH);
+        Integer currentMonth = instance.get(Calendar.MONTH)+1;
+        Integer currentYear = instance.get(Calendar.YEAR);
+        Integer currentHour = instance.get(Calendar.HOUR);
+        Integer currentMinute = instance.get(Calendar.MINUTE);
+
+
+
         if (sAmount.isEmpty()){
             Toast.makeText(this,"Please enter an amount ",Toast.LENGTH_SHORT).show();
             return;
@@ -152,7 +162,7 @@ public class PayActivity extends AppCompatActivity {
 
         Log.d("OPERATION", "operation with card : "+selectedCard.getId()+" for : "+amount);
 
-        Operation op = new Operation(null, selectedCard.getId(), amount);
+        Operation op = new Operation(null, selectedCard.getId(), amount,currentYear,currentMonth,currentDay,currentHour,currentMinute);
 
         operationModele.insertOperation(op);
         finish();

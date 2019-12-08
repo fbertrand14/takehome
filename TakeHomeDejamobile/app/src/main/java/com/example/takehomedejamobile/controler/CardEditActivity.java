@@ -39,9 +39,9 @@ public class CardEditActivity extends AppCompatActivity {
     private Button deleteCardButton;
     private EditText cardNameTextField;
     private EditText cardNumberTextField;
+    private EditText expMonthTextField;
+    private EditText expYearTextField;
 
-    private Spinner monthSpinner;
-    private Spinner yearSpinner;
 
     private LiveData<Card> card;
 
@@ -64,10 +64,9 @@ public class CardEditActivity extends AppCompatActivity {
         deleteCardButton = (Button) findViewById(R.id.deleteButton_EditCardActivity);
         cardNameTextField = (EditText) findViewById(R.id.cardNameTextField_EditCardActivity);
         cardNumberTextField = (EditText) findViewById(R.id.cardNumberTextField_EditCardActivity);
-        monthSpinner = (Spinner) findViewById(R.id.monthspinner_EditCardActivity);
-        yearSpinner = (Spinner) findViewById(R.id.yearspinner_EditCardActivity);
+        expMonthTextField = (EditText) findViewById(R.id.expMonthEditText_EditCardActivity);
+        expYearTextField = (EditText) findViewById(R.id.expYearEditText_EditCardActivity);
 
-        initSpinner();
 
         saveCardButton.setOnClickListener(new View.OnClickListener(){
 
@@ -102,7 +101,7 @@ public class CardEditActivity extends AppCompatActivity {
                     if (card!=null) {
                         cardNameTextField.setText(card.getName());
                         cardNumberTextField.setText(card.getNumber());
-                        monthSpinner.setSelection(card.getExpMonth());
+                        //TODO load month and year
                     }
                 }
             });
@@ -111,27 +110,6 @@ public class CardEditActivity extends AppCompatActivity {
 
     }
 
-    private  void initSpinner(){
-        DateFormatSymbols symbols = new DateFormatSymbols();
-        String[] monthNames = symbols.getMonths();
-
-        ArrayAdapter<String> monthAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item,monthNames);
-        monthAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        monthSpinner.setAdapter(monthAdapter);
-
-        ArrayList<String> years = new ArrayList<>();
-
-        Calendar instance = Calendar.getInstance();
-        Integer currentYear = instance.get(Calendar.YEAR);
-        for (int i=0;i<10;i++){
-            years.add(String.valueOf(currentYear+i));
-        }
-
-        ArrayAdapter<String> yearAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item,years);
-        yearAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        yearSpinner.setAdapter(yearAdapter);
-
-    }
 
 
     /**
@@ -142,8 +120,9 @@ public class CardEditActivity extends AppCompatActivity {
         String name = String.valueOf(cardNameTextField.getText());
         String number = String.valueOf(cardNumberTextField.getText());
 
-        Integer month = monthSpinner.getSelectedItemPosition()+1;
-        Integer year = Integer.valueOf(yearSpinner.getSelectedItem().toString());
+        String monthstr = String.valueOf(expMonthTextField.getText());
+        String yearstr = String.valueOf(expYearTextField.getText());
+
 
         if (name.isEmpty()){
             Toast.makeText(this,"Please enter a name for this card",Toast.LENGTH_SHORT).show();
@@ -152,6 +131,24 @@ public class CardEditActivity extends AppCompatActivity {
 
         if (number.isEmpty()){
             Toast.makeText(this,"Please enter a number for this card",Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        if (monthstr.isEmpty()){
+            Toast.makeText(this,"Please enter an expiration month for this card",Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        if (yearstr.isEmpty()){
+            Toast.makeText(this,"Please enter an expiration year for this card",Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        Integer month = Integer.valueOf(monthstr);
+        Integer year = Integer.valueOf(yearstr);
+
+        if (month>12 | month<1){
+            Toast.makeText(this,"Invalid value for month",Toast.LENGTH_SHORT).show();
             return;
         }
 
