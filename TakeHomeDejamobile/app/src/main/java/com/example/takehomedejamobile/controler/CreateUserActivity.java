@@ -94,6 +94,7 @@ public class CreateUserActivity extends AppCompatActivity {
                 else {
                     displayEmailExist();
                 }
+                userdata.removeObserver(this);
             }
         });
 
